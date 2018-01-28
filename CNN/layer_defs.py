@@ -229,8 +229,7 @@ def conv_max_forward_reverse(name_scope, input_tensor, num_kernels, kernel_size,
         new_weights_shape = [-1] + kernel_size + [1]
         print("new_weights_shape = ", new_weights_shape)
 
-        # TODO uncomment:
-        w_image = tf.reshape(weights, new_weights_shape) # TODO ????
+        w_image = tf.reshape(weights, new_weights_shape)
         print("w_image = ", w_image)
         print("w_image.get_shape() = ", w_image.get_shape())  # (input_channels*out_channels, 1, 2, 1)
 
@@ -342,8 +341,7 @@ def conv(name_scope, input_tensor, num_kernels, kernel_size, project, PWM_file=N
         new_weights_shape = [-1] + kernel_size + [1]
         print("new_weights_shape = ", new_weights_shape)
 
-        # TODO uncomment:
-        w_image = tf.reshape(weights, new_weights_shape)  # TODO ????
+        w_image = tf.reshape(weights, new_weights_shape)
         print("w_image = ", w_image)
         print("w_image.get_shape() = ", w_image.get_shape())  # (input_channels*out_channels, 1, 2, 1)
 
@@ -373,116 +371,4 @@ def flatten(x):
     """
     x_shape = x.get_shape().as_list()
     return tf.reshape(x, [-1, np.product(x_shape[1:])])
-
-# def read_filter_from_file(filter_path):
-#     print("in read_filter_from_file, filter_path = ", filter_path)
-#     values_all_dimensions = []
-#     with open(filter_path) as pwm:
-#
-#         for line in pwm:
-#             values_one_dimension = []
-#             split_line = line.split()
-#             # print("split_line = ", split_line)
-#             for value in split_line:
-#                 values_one_dimension.append(float(value))
-#             values_all_dimensions.append(values_one_dimension)
-#
-#     array_values_all_dimensions = np.array(values_all_dimensions, dtype='float32')
-#     print("array_values_all_dimensions.shape = ", array_values_all_dimensions.shape)
-#     # reshape_array = np.transpose(array_values_all_dimensions)
-#     # print("reshape_array.shape = ", reshape_array.shape)
-#     # print("reshape_array = ", reshape_array)
-#
-#     # print ("frequencies_all_positions = ", frequencies_all_positions)
-#     return array_values_all_dimensions
-#
-#
-# def conv_max_forward_reverse_read_filter_from_file(name_scope, input_tensor, num_kernels,
-#                                                    kernel_size, filter_path,
-#                                                    stride=1, padding='VALID', relu=True):
-#     """
-#     Returns a convolution layer
-#     """
-#     # conv2 = tfb.conv("conv2", max_pool1, self.conv2_num_kernels, self.conv2_shape)
-#     print("********************************* \n "
-#           "in  layer_defs - conv_max_forward_reverse_read_filter_from_file: \n"
-#           "name_scope = ", name_scope, " , input_tensor = ", input_tensor,
-#           "out_channels = ", num_kernels, "ksize = ", kernel_size, "stride = ", stride, "padding = ", padding,
-#           "relu = ", relu, " , filter_path = ", filter_path)
-#     input_shape = input_tensor.get_shape().as_list()
-#     print("input_shape = ", input_shape)
-#     input_channels = input_shape[-1]  # number of input channels
-#     print("input_channels = ", input_channels)
-#     with tf.name_scope(name_scope):
-#
-#         filter = read_filter_from_file(filter_path)
-#         print("type input_tensor[0][0] = ", type(input_tensor[0][0][0][0]))
-#         filter_height = len(filter)
-#         print("filter_height = ", filter_height)
-#         filer_width = len(filter[0])
-#         print("filer_width = ", filer_width)
-#
-#         const_filter = tf.constant(filter, tf.float32)
-#         weights = tf.reshape(const_filter, [filter_height, filer_width, 1, 1], name='weights')
-#
-#         # weights = tf.Variable(tf.reshape(const_filter, [BASIS_NUMBER, motif_length, 1, 1]), name='weights')
-#
-#         # print ("weights.get_shape()[3] = ",weights.get_shape()[3])
-#         num_kernels = weights.get_shape()[3]
-#         print("num_kernels = ", num_kernels)
-#         print("weights.get_shape() = ", weights.get_shape())
-#
-#         # TODO add biases! (?)
-#         # biases = tf.Variable(tf.zeros([num_kernels], tf.float32), name='biases')
-#         # print("biases.get_shape() = ", biases.get_shape())
-#
-#         # If one component of shape is the special value -1, the size of that dimension is computed
-#         #  so that the total size remains constant.
-#         # In our case: -1 is inferred to be input_channels * out_channels:
-#         new_weights_shape = [-1] + kernel_size + [1]
-#         print("new_weights_shape = ", new_weights_shape)
-#
-#         # TODO uncomment:
-#         # w_image = tf.reshape(weights, new_weights_shape)  # TODO ????
-#         # print("w_image = ", w_image)
-#         # print("w_image.get_shape() = ", w_image.get_shape())  # (input_channels*out_channels, 1, 2, 1)
-#
-#         # tf.summary.image(name_scope + "_weights_im", w_image, weights.get_shape()[3])
-#         # max_images_number = 1000000
-#         # tf.image_summary(name_scope + "_weights_im", w_image, max_images_number)
-#         ###############################
-#
-#         # tf.histogram_summary(name_scope + "_weights", weights)
-#         # tf.histogram_summary(name_scope + "_biases", biases)
-#
-#         # TODO add biases! (?)
-#         forward_conv = tf.nn.conv2d(input_tensor, weights, strides=[1, stride, stride, 1], padding=padding,
-#                                     name="forward_conv")
-#         # forward_conv = tf.nn.conv2d(input_tensor, weights, strides=[1, stride, stride, 1], padding=padding,
-#         #                             name="forward_conv") + biases
-#
-#         print("after forward_conv")
-#
-#         # for reverse complement: reverse in dimension 0 and 1:
-#         rev_comp_weights = tf.reverse(weights, [0, 1], name="reverse_weights")
-#         # TODO add biases! (?)
-#         reverse_conv = tf.nn.conv2d(input_tensor, rev_comp_weights,
-#                                     strides=[1, stride, stride, 1], padding=padding,
-#                                     name="reverse_conv")
-#
-#         # reverse_conv = tf.nn.conv2d(input_tensor, rev_comp_weights,
-#         #                             strides=[1, stride, stride, 1], padding=padding,
-#         #                             name="reverse_conv") + biases
-#
-#         print("after reverse_conv")
-#
-#
-#         # takes the maximum between the forward weights and the rev.-comp.-weights:
-#         max_conv = tf.maximum(forward_conv, reverse_conv, name="conv1")
-#
-#         if relu:
-#             return tf.nn.relu(max_conv, name="conv1")
-#         else:
-#             return max_conv
-
 

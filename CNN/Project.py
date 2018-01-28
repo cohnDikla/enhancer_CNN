@@ -48,8 +48,6 @@ class Project:
         else:
             self.project_name = project_name_and_PWM
             self.PWM = None
-        print("self.project_name = ", self.project_name)
-        print("self.PWM = ", self.PWM)
         self.all_projects_base_bath = base_path
         self.project_base_path = os.path.join(base_path, self.project_name)
         self.k = k
@@ -104,7 +102,7 @@ class Project:
             self.samples_base_dir = os.path.join(self.base_dir_data_path, "npy_files")
             self.text_samples_base_dir = os.path.join(self.base_dir_data_path, "samples")
             if self.project_name=="negative_data_vs_k_shuffle":
-                self.species = H3K27ac_species_names_ordered[:-2]
+                self.species = H3K27ac_species_names_ordered
             if self.project_name.startswith("H3K27ac"):
                 self.species = H3K27ac_species_names_ordered
                 if "expanded" in self.project_name:

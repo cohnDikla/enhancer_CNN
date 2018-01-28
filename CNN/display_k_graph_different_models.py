@@ -1,8 +1,6 @@
 __author__ = 'Dikla Cohn'
 
 import os
-import numpy as np
-import test_CNN
 from Project import Project
 import matplotlib
 matplotlib.use('Agg')
@@ -10,16 +8,11 @@ import matplotlib.pyplot as plt
 import re
 import sys
 from matplotlib.font_manager import FontProperties
-from sklearn.metrics import roc_curve, roc_auc_score, auc
-from scipy import interp
-import seaborn as sns
-
-legend = True
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
-# TODO update!
-train_on_human = True
+legend = True
+train_on_human = False
 train_on_all_samples = False
 train_on_dog = False
 
@@ -164,9 +157,6 @@ def draw_k_graph_and_write_results(project, model_ids, figure_path, train_specie
     plt.savefig(figure_path, format='pdf')
     print("saving figure as pdf: ", figure_path)
 
-
-## TODO run:
-# python3 /cs/cbio/dikla/projects/CNN/display_k_graph_different_models.py TF_vs_k_shuffle negative_data_vs_k_shuffle
 
 def main():
     os.system("module load tensorflow")

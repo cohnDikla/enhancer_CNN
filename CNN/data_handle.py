@@ -297,7 +297,6 @@ def create_positive_or_negative_samples(project, is_positive, index_of_iteration
                 lines = samples_file.readlines()
                 # and then select random <project.get_number_of_samples> lines
                 # from the saved list of all lines in memory
-                # chosen_lines = random.sample(lines, project.get_number_of_samples()) # TODO ?
                 samples_counter = 0
                 for line in lines:
                     sequence = line[:SAMPLE_LENGTH]  # without \n at the end
@@ -367,7 +366,7 @@ def draw_histogram(motif_centers_int, project, mu, sigma):
     maximum = max(motif_centers_int)
     minimum = min(motif_centers_int)
     # number_of_bins = maximum-minimum+1
-    number_of_bins = 100 # TODO ?
+    number_of_bins = 100
     bin_numbers = np.linspace(minimum, maximum, number_of_bins)
     fig = plt.figure()
     fig.suptitle("Distribution of "+motif_name+" motif center position\n"
@@ -407,7 +406,7 @@ def draw_normed_histogram(motif_centers_int, project, mu, sigma):
     minimum = min(motif_centers_int)
     # number_of_bins = maximum - minimum + 1
     # bin_numbers = np.linspace(minimum, maximum, number_of_bins)
-    number_of_bins = 100  # TODO ?
+    number_of_bins = 100
     bin_numbers = np.linspace(minimum, maximum, number_of_bins)
 
     # normed or is True - therefore the weights are normalized,

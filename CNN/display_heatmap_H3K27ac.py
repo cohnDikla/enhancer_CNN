@@ -42,7 +42,7 @@ def create_heatmap(project, matrix, figure_path):
             ax.annotate(txt, (x_axis[i] + 0.5, y_axis[i] + 0.5), horizontalalignment='center',
                     verticalalignment='center', fontsize=5)
 
-    heatmap = plt.pcolor(matrix)  # TODO for all colors, not only Blues
+    heatmap = plt.pcolor(matrix)  # for all colors
     plt.clim(0.5, 1)
     cbar = plt.colorbar(heatmap, ticks=[0.5, 0.6, 0.7, 0.8, 0.9, 1])
     cbar.ax.tick_params(labelsize=10)

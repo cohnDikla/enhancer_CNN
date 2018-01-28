@@ -7,15 +7,10 @@ import sys
 from Project import Project
 from DataSetObject import DataSetObject
 from SampleObject import SampleObject
-from stat import S_ISREG, ST_CTIME, ST_MODE
-import time
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import pandas as pd
 from sklearn.metrics import roc_curve, roc_auc_score
-# import tarfile
-from matplotlib.backends.backend_pdf import PdfPages # for saving multiple plots to one pdf file
 from matplotlib.font_manager import FontProperties
 import re
 
@@ -92,30 +87,9 @@ def get_sorted_models_list(project):
         if filename.endswith(".tar"):
             model_ids.append(filename[:-len(".tar")])
             entries.append((os.path.join(checkpoints_folder, filename)))
-    print("len model_ids: ", len(model_ids))
-    # exit()
+    print("number of model ids: ", len(model_ids))
     map_ids_species = get_map_model_ids_species(project, project.output_results_file, model_ids)
-    # entries = ((os.stat(path), path) for path in entries)
-    # entries = ((stat[ST_CTIME], path) for stat, path in entries if S_ISREG(stat[ST_MODE]))
-    # # sort tar files from newest to oldest, and take only the #species newest models.
-    # sorted_entries = sorted(entries, reverse=True)
-    # print("sorted_entries: ", sorted_entries)
-    #
-    # sorted_entries = sorted_entries[:len(project.species)]
-    # print("len(sorted_entries) = ", len(sorted_entries))
-    # i = 0
-    # for cdate, path in sorted_entries:
-    #     print("cdate: ", cdate)
-    #     print("path: ", path)
-    #     exit()
-    #     # print("time.ctime(cdate), os.path.basename(path): ", time.ctime(cdate), os.path.basename(path))
-    #     best_model_validation_id = os.path.basename(path)[:-len('.tar')]
-    #     print("best_model_validation_id: ", best_model_validation_id)
-    #     map_model_ids[best_model_validation_id] = project.species[i]
-    #     model_dir = os.path.join(checkpoints_folder, best_model_validation_id)
 
-    #     i += 1
-    # print("len(map_model_ids): ", len(map_model_ids))
     first_species = None
     sorted_list = []
     for item in map_ids_species.items():
@@ -230,14 +204,6 @@ def get_test_samples_path(project, test_species):
                                        project.k_let_dirs[project.k-1], 'test_X.npy')
             test_y_path = os.path.join(project.samples_base_dir, test_species,
                                        project.k_let_dirs[project.k-1], 'test_Y.npy')
-            # if project.project_name == "negative_data_vs_k_shuffle":
-            #     test_x_path = []
-            #     test_y_path = []
-            #     for k in range(1, project.MAXIMAL_K+1):
-            #         test_x_path.append(os.path.join(project.samples_base_dir, test_species,
-            #                                    project.k_let_dirs[k], 'test_X.npy'))
-            #         test_y_path.append(os.path.join(project.samples_base_dir, test_species,
-            #                                    project.k_let_dirs[k], 'test_Y.npy'))
 
         elif project.num_times_negative_data_is_taken is not None:
             test_x_path = os.path.join(project.base_dir_data_path,

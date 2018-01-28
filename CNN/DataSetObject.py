@@ -5,7 +5,7 @@ import math
 
 class DataSetObject:
 
-    def __init__(self, samples_path, labels_path, num_of_epochs=None):
+    def __init__(self, samples_path, labels_path):
 
         sample_matrices = np.load(samples_path)
         label_matrices = np.load(labels_path)
@@ -15,8 +15,6 @@ class DataSetObject:
         for index in range(self._num_samples):
             self._samples.append(SampleObject(sample_matrices[index], label_matrices[index],
                                   is_matrix=True))
-        # TODO delete self._num_epochs - it is not used
-        # self._num_epochs = num_of_epochs
         self._current_epoch = 1
         self._current_position_in_epoch = 0
         self._batch_size = 0

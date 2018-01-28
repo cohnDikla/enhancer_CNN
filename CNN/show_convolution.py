@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 
 
 BATCH_SIZE_TEST = 1
-SAMPLE_INDEX_IN_TEST = 0  # TODO use it?
 create_figure_for_each_filter = False
 
 trained_on_all_species_only = False
@@ -49,8 +48,7 @@ def get_conv_results_all_layers(project, graph, sample):
 def restore_model_and_get_conv_results(project, train_species,
                                        best_model_validation_id, argmin, argmax):
     print("start show convolution on species: ", train_species)
-    # checkpoints_folder = project.checkpoints_folder # TODO uncomment
-    checkpoints_folder = project.checkpoints_folder_tmp # TODO delete
+    checkpoints_folder = project.checkpoints_folder_tmp
     test_x_path, test_y_path = test_CNN.get_test_samples_path(project, train_species)
     with tf.Session() as sess:
         # load meta graph and restore weights:
@@ -63,7 +61,7 @@ def restore_model_and_get_conv_results(project, train_species,
                                       best_model_validation_id + ".meta")
         print("model_def_path : ", model_def_path)
         saver = tf.train.import_meta_graph(model_def_path)
-        saver.restore(sess, model_variables_path)  # TODO maybe use:  tf.train.latest_checkpoint
+        saver.restore(sess, model_variables_path)
         graph = tf.get_default_graph()
         test_set = DataSetObject(test_x_path, test_y_path)
         # test_samples = test_set.get_next_batch(BATCH_SIZE_TEST)
@@ -158,10 +156,6 @@ def draw_figure_for_each_layer(layer_num, array_all_convs_one_layer, sample_dir,
         axes[filter_num-1].bar(ind, filter_conv_results, edgecolor='b')
         axes[filter_num-1].set_ylim([min_value, 1])
         axes[filter_num-1].get_yaxis().set_ticks([])
-        # axes[filter_num - 1].set_ylabel("filter "+str(filter_num), rotation=0,
-        #                             horizontalalignment='right',
-        #                             verticalalignment='bottom')
-        # rect_width = rects[0].get_width()
         axes[filter_num - 1].text(-(result_width/20), 0.05*max_height,
                                   "filter "+str(filter_num), rotation=0, horizontalalignment='right',
                                   va='bottom')
@@ -199,14 +193,11 @@ def main():
     project = test_CNN.get_project_and_check_arguments(sys.argv, 'show_convolution.py')
     sorted_models_list, map_model_ids = test_CNN.get_sorted_models_list(project)
     number_of_species = len(project.species)
-    # with open(conv1_results_output_file, 'w') as conv_file:
-        # for index_to_test_on in range(len(species_names_ordered)):
     if trained_on_all_species_only:
-        trained_species_index = number_of_species - 2  # all species 238000 # TODO change if needed
+        trained_species_index = number_of_species - 2  # all species 238000
         train_species = project.species[trained_species_index]
         best_model_validation_id = (list(map_model_ids.keys()))[0]
-
-        test_species = train_species  # TODO change test species?
+        test_species = train_species
         array_true_labels, array_prediction_scores = test_CNN.import_model_and_test(
             project, best_model_validation_id, test_species, train_species)
 
@@ -234,7 +225,7 @@ def main():
     else:
         for best_model_validation_id in sorted_models_list:
             train_species = map_model_ids[best_model_validation_id]
-            test_species = train_species  # TODO change test species?
+            test_species = train_species
             array_true_labels, array_prediction_scores = test_CNN.import_model_and_test(
                 project, best_model_validation_id, test_species, train_species)
 

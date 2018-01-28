@@ -9,15 +9,12 @@ import layer_defs as ld
 import data_handle as dh
 from DataSetObject import DataSetObject
 
-
-
 MAXIMAL_K = 9
 samples_k_lets_dirs = output_k_lets_dirs = ["preserving_"+str(k)+"-let_counts/" for k in range(1, MAXIMAL_K+1)]
 
 
 class CNN:
     LOSS_EPSILON = 0.01
-    # ACCURACY_EPSILON = 0.0001
 
     def __init__(self, project, num_epochs, num_runs, species_to_train_on=None, k=None, n=None,
                  init_according_to_given_filters=False, init_model_ids=None):
@@ -201,17 +198,11 @@ class CNN:
                 board_path = os.path.join(self.project.board_folder,  model_id)
                 summary_writer = tf.summary.FileWriter(board_path, sess.graph)
                 sess.run(tf.global_variables_initializer())
-                # print("before iterations: train_set.get_current_epoch() = ", train_set.get_current_epoch())
-                # print("before iterations: train_set.get_current_position_in_epoch() = ", train_set.get_current_position_in_epoch())
-                # print("train_set.get_num_samples() = ", train_set.get_num_samples())
-                # print("train_set.get_num_samples() % self.mini_batch_size = ",train_set.get_num_samples() % self.mini_batch_size)
                 num_iterations_in_one_epoch = int(train_set.get_num_samples() / self.project.CNN_structure.mini_batch_size) + \
                                    (train_set.get_num_samples() % self.project.CNN_structure.mini_batch_size)
                 print("num_iterations_in_one_epoch = ", num_iterations_in_one_epoch)
                 step = 0
                 for i in range(num_iterations_in_one_epoch * self.num_epochs):
-                    # if skip_run:
-                    #     break
                     step += 1
                     train_batch = train_set.get_next_batch(self.project.CNN_structure.mini_batch_size)
                     train_batch_samples, train_batch_labels = train_set.get_samples_labels(train_batch)
@@ -247,40 +238,7 @@ class CNN:
                                                                 train_set.get_current_epoch(),
                                                                 train_accuracy,
                                                                 validation_accuracy))
-                        # TODO delete:
-                        # if 0.71 < validation_accuracy < 0.76:
-                        #     max_validation_accuracy = -1
-                        #     stop = True
-                        #     break
 
-                        # if abs(validation_accuracy - prev_validation_accuracy) < EPSILON:
-                        #     print('validation_accuracy is not getting better. '
-                        #           'skipping to next epoch...')
-                        #     curr_epoch = train_set.get_current_epoch()
-                        #     while curr_epoch == train_set.get_current_epoch():
-                        #         train_set.get_next_batch(self.mini_batch_size)
-                        #     prev_validation_accuracy = validation_accuracy
-                        #     break
-                        # prev_validation_accuracy = validation_accuracy
-                        # if self.project.project_name == "H3K27ac_vs_negative_data":
-                        #     if train_set.get_current_epoch() > 6 and validation_accuracy < 0.6:
-                        #         print('validation_accuracy is small. '
-                        #               'skipping to next run...')
-                        #         # skip_run = True
-                        #         break
-
-
-                        # if self.project.project_name == "simulated_data":
-                        #     if train_set.get_current_epoch() > 10 and validation_accuracy < 0.6:
-                        #         print('validation_accuracy is small. '
-                        #               'skipping to next run...')
-                        #         # skip_run = True
-                        #         break
-
-                            # print("before train_step.run")
-                            # train_step.run(feed_dict={x_in: train_batch_samples,
-                            #                           y_in: train_batch_labels,
-                            #                           keep_prob: self.project.dropout_prob})
                 # save the trained model if its better than before:
                 if validation_accuracy > max_validation_accuracy:
                     max_validation_accuracy = validation_accuracy
@@ -291,8 +249,6 @@ class CNN:
                     best_run_validation_index = num_run
                     # save the best model in a different folder:
                     CNN.save_model(sess, model_id, self.project.checkpoints_folder)
-                    if stop:
-                        break # TODO delete
         tf.reset_default_graph()
         return max_validation_accuracy, best_model_validation_id, best_run_validation_index
 

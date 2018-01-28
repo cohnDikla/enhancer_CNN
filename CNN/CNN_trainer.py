@@ -29,8 +29,8 @@ def get_project_and_check_arguments(argv, script_name):
         sys.exit("Usage: "+script_name+" <project_name_and_PWM> <num_runs> <num_epochs> "
                  "[<k=None> or <normal_sigma>] \n")
     project_name = argv[1]
-    num_runs = int(argv[2])  # TODO 50-100
-    num_epochs = int(argv[3])  # TODO 10-20
+    num_runs = int(argv[2])
+    num_epochs = int(argv[3])
     k = None
     is_normal_distribution = False
     sigma = None

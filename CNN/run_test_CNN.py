@@ -5,19 +5,19 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 import test_CNN
 import tarfile
 
-plot_ROC = False # TODO update!
-trained_on_one_species_only = True  # TODO update!
+plot_ROC = False
+trained_on_one_species_only = True
 train_on_all_samples = False
 train_on_human = True
 train_on_dog = False
 
-# n = 2  # TODO update!
+# n = 2  # TODO update
 n = None
 
 def main():
     # os.system("module load tensorflow;")
     project = test_CNN.get_project_and_check_arguments(sys.argv, 'run_test_CNN.py')
-    project.num_times_negative_data_is_taken = n  # TODO delete?
+    project.num_times_negative_data_is_taken = n
     sorted_models_list, map_model_ids = test_CNN.get_sorted_models_list(project)
     print("map_model_ids: ", map_model_ids)
     # output_dir = os.path.join(project.CNN_output_dir,

@@ -25,8 +25,7 @@ script_create_images = script_path + " -nonumbers"
 
 def export_tensors_as_images(project, best_model_validation_id, tensor_name,
                              filters_dir, species_name, layer_num):
-    # checkpoints_folder = project.checkpoints_folder # TODO uncomment
-    checkpoints_folder = project.checkpoints_folder_tmp # TODO delete
+    checkpoints_folder = project.checkpoints_folder_tmp
     # model checkpoint:
     model_variables_path = os.path.join(checkpoints_folder, best_model_validation_id,
                                         best_model_validation_id)
@@ -203,7 +202,7 @@ def main():
 
     for index_train_species in range(len(project.species)):
         if trained_on_all_species_only:
-            trained_species_index = number_of_species - 2  # all species 238000 # TODO change if needed
+            trained_species_index = number_of_species - 2  # all species 238000 # change if needed
             train_species = project.species[trained_species_index]
             best_model_validation_id = (list(map_model_ids.keys()))[0]
             if index_train_species!=0:  break
