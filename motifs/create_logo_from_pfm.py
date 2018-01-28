@@ -6,8 +6,8 @@ and creating a logo image of the motif.
 import os
 import sys
 # get the directory of the script being run:
-base_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, base_path[:-len('/motifs')]+'/CNN/')
+motifs_base_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, motifs_base_path[:-len('/motifs')]+'/CNN/')
 import data_handle
 from subprocess import call
 
@@ -23,9 +23,14 @@ if CEBPA_JASPAR:
 elif HNF4A_JASPAR:
     motif_name = "HNF4A_JASPAR"
 
-PWM_path = "/cs/cbio/dikla/projects/motifs/"+motif_name+".pfm.txt"
-script_create_images = "~tommy/bin/makefig.pl -nonumbers"
-output_folder_path = "/cs/cbio/dikla/projects/motifs"
+PWM_path = "/motifs/"+motif_name+".pfm.txt"
+script_path = os.path.join(motifs_base_path, "makefig.pl")
+script_create_images = script_path + " -nonumbers"
+
+
+
+
+output_folder_path = "/motifs"
 
 bases = ["A", "C", "G", "T"]
 
@@ -70,5 +75,5 @@ def pretty_print_of_PWM(array_PWM_with_pseudo_counts):
 if __name__ == "__main__":
     get_motif_logo(output_folder_path)
     array_PWM_with_pseudo_counts = data_handle.create_frequency_matrix_with_pseudo_counts(PWM_path, True)
-    pretty_print_of_PWM(array_PWM_with_pseudo_counts)
+    # pretty_print_of_PWM(array_PWM_with_pseudo_counts)
 

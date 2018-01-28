@@ -15,13 +15,8 @@ import data_handle
 import test_CNN
 
 trained_on_all_species_only = False
-# trained_species_index = 0
 
-# filters_folder = "/cs/cbio/dikla/projects/20-Enh/output/CNN_version_2_filters_all_k/" \
-#                       "filters_conv_1/preserving_4-let_counts/"
-# filters_folder = "/cs/cbio/dikla/projects/" \
-#                      "Five-vertebrate_ChIP-seq/output/CNN_2_conv_layers_filters/" \
-#                      "preserving_4-let_counts/"
+
 
 
 def create_filters_file_for_Homer_compareMotifs(filters_folder, num_filters_in_first_layer,

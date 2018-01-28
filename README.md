@@ -58,10 +58,11 @@ The generated files contain 10K samples in positive samples and 10K samples in n
 1. data loader: (from string sequences (ACGT...) to npy files) - run with a specific project dir: 
 python2.7 /<project_name>/run_data_loader.py
 
-for the k-shuffle projects (TF_vs_k_shuffle or H3K27ac_vs_k_shuffle), before running the above run_data_loader.py, run:
+for the k-shuffle projects (TF_vs_k_shuffle, H3K27ac_vs_k_shuffle or negative_data_vs_k_shuffle), before running the above run_data_loader.py, run:
 python2.7 /<project_name>/data_loader_<project_name>.py
 for example:
 python2.7 /TF_vs_k_shuffle/data_loader_TF_vs_k_shuffle.py
+python2.7 /negative_data_vs_k_shuffle/data_loader_negative_data_vs_k_shuffle_each_species.py
 This module creates data for each species separately, and for all values of k (k=1,...,9).
 
 2. CNN train:
