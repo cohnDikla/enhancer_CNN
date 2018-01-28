@@ -5,6 +5,7 @@ display_heatmap_TF.py
 This module is responsible for displaying the test AUC results of all species,
 both as a graph with numerical values shown on it, and as a heatmap.
 """
+__author__ = 'Dikla Cohn'
 import os
 import numpy as np
 import test_CNN

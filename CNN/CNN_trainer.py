@@ -1,4 +1,9 @@
-__author__ = 'diklac03'
+"""
+CNN trainer module.
+Trains the CNN according to the given project_name, num_runs and num_epochs.
+Loads pickled object arrays of samples previously stored in npy files.
+"""
+__author__ = 'Dikla Cohn'
 import os
 base_path = os.path.dirname(os.path.abspath(__file__))
 import sys

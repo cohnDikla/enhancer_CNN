@@ -3,6 +3,7 @@ A script for visualization of tensors,
 especially filters of the first convolutional layer,
 that can be presented as motif logo images.
 """
+__author__ = 'Dikla Cohn'
 import tensorflow as tf
 import numpy as np
 import os
