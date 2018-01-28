@@ -18,6 +18,8 @@ running on the same project (dataset).
 """
 
 PSSM_models = ["denovo", "JASPAR"]
+titles = False
+legend = False
 
 def find_best_kernel_and_kmer_size(project):
     best_k = None
@@ -51,8 +53,17 @@ def find_best_kernel_and_kmer_size(project):
 def read_scores_and_labels_files(model_dir, project, best_model_validation_id=None,
                                  pssm_model=None, pr=None):
     if best_model_validation_id:
-        score_path = os.path.join(model_dir, "scores_" + str(best_model_validation_id) + ".txt")
-        true_labels_path = os.path.join(model_dir, "labels_" + str(best_model_validation_id) + ".txt")
+        if best_model_validation_id.startswith("simulated_"):
+            new_best_model_validation_id = best_model_validation_id[len("simulated_"):]
+        else:
+            new_best_model_validation_id = best_model_validation_id
+        if model_dir.startswith("simulated_"):
+            new_model_dir = model_dir[len("simulated_"):]
+        else:
+            new_model_dir = model_dir
+
+        score_path = os.path.join(new_model_dir, "scores_" + str(new_best_model_validation_id) + ".txt")
+        true_labels_path = os.path.join(new_model_dir, "labels_" + str(new_best_model_validation_id) + ".txt")
     else:
         if pr:
             if pr == "with_prior":
@@ -85,6 +96,10 @@ def add_roc_curve(labels, scores, fig, model_label):
     print("auc = ", auc)
     print("\n\n")
     ax = fig.add_subplot(111)
+    for tick in ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(17)
+    for tick in ax.yaxis.get_major_ticks():
+        tick.label.set_fontsize(17)
     if model_label.startswith("Gold standard"):
         plt.plot(fpr, tpr, label=model_label+"{0:.2f}".format(auc), linewidth=2.0, linestyle="--",
                 color="gold")
@@ -127,34 +142,37 @@ def main():
             if pr == "with_prior":
                 # model_label = "PSSM, " + pssm_model + ", with location prior, AUC: "
                 if pssm_model == "denovo":
-                    model_label = "Homer de-novo motif w/ location prior, AUC: "
+                    model_label = "denovo motif w/ location prior, AUC: "
                 elif pssm_model == "JASPAR":
                     model_label = "Gold standard model - True motif w/ location prior, AUC: "
             else:
                 # model_label = "PSSM, " + pssm_model + ", AUC: "
                 if pssm_model == "denovo":
-                    model_label = "Homer de-novo motif w/o location prior, AUC: "
+                    model_label = "denovo motif w/o location prior, AUC: "
                 elif pssm_model == "JASPAR":
                     model_label = "True motif w/o location prior, AUC: "
             add_roc_curve(PSSM_labels, PSSM_scores, fig, model_label)
 
 
-    plt.xlabel('False positive rate')
-    plt.ylabel('True positive rate')
-    # plt.suptitle('ROC curve')
-    data_name = " ".join(project.project_name.split("_"))
-    # plt.title('Comparison between models, ' + data_name + ' of single TF: ' + TF_name)
-    plt.legend(loc='best')
-    plt.savefig(figure_roc_path, format='pdf')
-    print("saving figure: ", figure_roc_path, "\n\n")
+    plt.xlabel('False positive rate', fontsize=20)
+    plt.ylabel('True positive rate', fontsize=20)
 
-
-
+    if titles:
+        plt.suptitle('ROC curve')
+        data_name = " ".join(project.project_name.split("_"))
+        plt.title('Comparison between models, ' + data_name + ' of single TF: ' + TF_name)
+    if legend:
+        plt.legend(loc='best')
+        new_figure_path = figure_roc_path[:-len(".pdf")]+"_with_legend.pdf"
+    else:
+        new_figure_path = figure_roc_path
+    plt.savefig(new_figure_path, format='pdf')
+    print("saving figure: ", new_figure_path, "\n\n")
 
 
 if __name__ == "__main__":
     main()
-    print("End!")
+
 
 
 

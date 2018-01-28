@@ -11,8 +11,9 @@ from matplotlib.font_manager import FontProperties
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
-legend = True
-train_on_human = False
+legend = False
+titles = False
+train_on_human = True
 train_on_all_samples = False
 train_on_dog = False
 
@@ -22,6 +23,9 @@ def draw_k_graph(figure_path, train_species, results_path):
     x_axis = [i for i in range(1, maximal_k + 1)]
     fig1 = plt.figure(0)
     plt.grid(True)
+    y = [0.5] * maximal_k
+    print("y = ", y)
+    plt.plot(x_axis, y, 'k--', linewidth="2.0")
     tested_on_all_ks_all_projects = []
     project_names = []
     tested_on_all_ks_one_project = []
@@ -48,30 +52,39 @@ def draw_k_graph(figure_path, train_species, results_path):
         project_name = project_names[i]
         tested_on_all_ks_one_project = tested_on_all_ks_all_projects[i]
         if "TF" in project_name:
-            label_project = "TF peaks vs. k-shuffle"
+            label_project = "TF peaks vs. k-shuffled"
         elif "negative_data" in project_name:
-            label_project = "Non-enhancer data vs. k-shuffle"
-
+            label_project = "Non-enhancers vs. k-shuffled"
         elif "H3K27ac" in project_name:
-            label_project = "Enhancers vs. k-shuffle"
+            label_project = "Enhancers vs. k-shuffled"
         plt.plot(x_axis, tested_on_all_ks_one_project, label=label_project, linewidth="2.0")
 
         ax = fig1.add_subplot(111)
         ax.set_xlim(1, maximal_k)
-        plt.xlabel('Shuffling parameter k', fontsize=13)
-        plt.ylabel('AUC averaged over all test species', fontsize=13)
-        plt.suptitle('Classification results as a function of the shuffling parameter k', fontsize=12)
-        train_species_new = " ".join(train_species.split("_"))
-        plt.title("Comparison between models, trained on "+train_species_new, fontsize=12)
+        plt.xlabel('Shuffling parameter k', fontsize=20)
+        plt.ylabel('Mean AUC', fontsize=20)
+        # labels = [str(i) for i in range(1, maximal_k+1)]
+        # plt.xticks(x_axis, labels)
 
-        fontP = FontProperties()
-        fontP.set_size('small')
+        for tick in ax.xaxis.get_major_ticks():
+            tick.label.set_fontsize(17)
+        for tick in ax.yaxis.get_major_ticks():
+            tick.label.set_fontsize(17)
+
+        if titles:
+            plt.suptitle('Classification results as a function of the shuffling parameter k', fontsize=12)
+            train_species_new = " ".join(train_species.split("_"))
+            plt.title("Comparison between models, trained on "+train_species_new, fontsize=12)
+
+        # fontP = FontProperties()
+        # fontP.set_size('small')
         if legend:
-            plt.legend(title="Model", loc='best', prop=fontP)
-
-        plt.savefig(figure_path, format='pdf')
-        print("saving figure as pdf: ", figure_path)
-
+            plt.legend(loc='best', fontsize=18)
+            new_figure_path = (figure_path[:-len(".pdf")]) + "_with_legend.pdf"
+        else:
+            new_figure_path = figure_path
+        plt.savefig(new_figure_path, format='pdf')
+        print("saving figure as pdf: ", new_figure_path)
 
 
 def draw_k_graph_and_write_results(project, model_ids, figure_path, train_species, out_results_all_models):
@@ -153,9 +166,12 @@ def draw_k_graph_and_write_results(project, model_ids, figure_path, train_specie
     fontP.set_size('small')
     if legend:
         plt.legend(title="Model", loc='best', prop=fontP)
+        new_figure_path = (figure_path[:-len(".pdf")])+"_with_legend.pdf"
+    else:
+        new_figure_path = figure_path
 
-    plt.savefig(figure_path, format='pdf')
-    print("saving figure as pdf: ", figure_path)
+    plt.savefig(new_figure_path, format='pdf')
+    print("saving figure as pdf: ", new_figure_path)
 
 
 def main():
