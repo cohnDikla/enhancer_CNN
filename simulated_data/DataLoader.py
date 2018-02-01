@@ -23,14 +23,14 @@ class DataLoader(object):
     """
     Basic DataLoader class for the project of simulated data.
     """
-    def __init__(self, project):
+    def __init__(self, project, motifs_base_path=None):
         # set mean and standard deviation for the normal distribution of the motif centers
         # in the simulated positive samples
         self.mu = data_handle.SAMPLE_LENGTH/2
         self.sections = ['train', 'validation', 'test']
         self.section_ratios = [0.8, 0.1, 0.1]
         self.project = project
-        self.motifs_dir = "/cs/cbio/dikla/projects/motifs/"
+        self.motifs_dir = motifs_base_path
 
     def create_npy_files(self):
         print("\nstart creating npy files for samples of motif: ", self.project.PWM)

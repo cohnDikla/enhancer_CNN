@@ -23,14 +23,11 @@ if CEBPA_JASPAR:
 elif HNF4A_JASPAR:
     motif_name = "HNF4A_JASPAR"
 
-PWM_path = "/motifs/"+motif_name+".pfm.txt"
+PWM_path = os.path.join(motifs_base_path, motif_name+".pfm.txt")
 script_path = os.path.join(motifs_base_path, "makefig.pl")
 script_create_images = script_path + " -nonumbers"
 
-
-
-
-output_folder_path = "/motifs"
+output_folder_path = motifs_base_path
 
 bases = ["A", "C", "G", "T"]
 
