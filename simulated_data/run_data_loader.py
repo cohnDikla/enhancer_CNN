@@ -2,7 +2,7 @@ import os
 import sys
 # get the directory of the script being run:
 base_path = os.path.dirname(os.path.abspath(__file__))
-motifs_base_path = base_path
+motifs_base_path = base_path[:-len('/simulated_data')]+'/motifs/'
 from DataLoader import DataLoader
 sys.path.insert(0, base_path[:-len('/simulated_data')]+'/CNN/')
 import test_CNN
