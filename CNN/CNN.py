@@ -9,9 +9,6 @@ import layer_defs as ld
 import data_handle as dh
 from DataSetObject import DataSetObject
 
-MAXIMAL_K = 9
-samples_k_lets_dirs = output_k_lets_dirs = ["preserving_"+str(k)+"-let_counts/" for k in range(1, MAXIMAL_K+1)]
-
 
 class CNN:
     LOSS_EPSILON = 0.01
@@ -22,9 +19,7 @@ class CNN:
         self.num_epochs = num_epochs
         self.NUM_RUNS = num_runs  # the final accuracy is the max accuracy of the {self.NUM_RUNS} runs
         self.k = k
-        print("self.k = ", self.k)
         self.species_to_train_on = species_to_train_on
-        print("self.species_to_train_on = ", self.species_to_train_on)
         self.n = n
         self.project.num_times_negative_data_is_taken = self.n
         self.init_according_to_given_filters = init_according_to_given_filters
@@ -67,17 +62,6 @@ class CNN:
             # softmax linear layer: An affine layer (fully connected) with 2 possible outputs: True/False.
             aff2 = ld.affine("softmax_linear", aff2, 2, False)
             y = tf.nn.softmax(aff2, name="output")
-            #########################################################################
-            # from paz:
-            # dense1 = tf.layers.dense(conv3_flat, dense1_cfg["size"], activation=tf.nn.relu, name="dense1")
-            # # dropout = tf.nn.dropout(dense1, keep_prob=dropout_keep_prob)
-            #
-            # dense2 = tf.layers.dense(dense1, dense2_cfg["size"], activation=tf.nn.relu, name="dense2")
-            # # output layer
-            # dense_out = tf.layers.dense(dense2, general_cfg["num_outs"], activation=None, name="dense_out")
-            # # we're returning the unscaled output so we can use the safe: tf.nn.softmax_cross_entropy_with_logits
-            # return dense_out
-            #########################################################################
             return y
 
     def save_model(sess, model_id, checkpoints_folder):
@@ -89,7 +73,6 @@ class CNN:
         """
         saver = tf.train.Saver()
         saver.save(sess, os.path.join(checkpoints_folder, model_id))
-
         tar_path = os.path.join(checkpoints_folder, model_id) + '.tar'
         subprocess.call(['tar', 'jcvf', tar_path, "-C", checkpoints_folder,
                          model_id + '.index',
@@ -102,9 +85,7 @@ class CNN:
         model_id = strftime("%Y%m%d%H%M%S") + "." + ''.join(
             [random.choice(string.ascii_letters + string.digits) for _ in range(8)])
         if self.species_to_train_on is not None:
-            print("self.species_to_train_on = ", self.species_to_train_on)
             species_name = self.project.species[self.species_to_train_on]
-            print("species_name = ", species_name)
         else:
             species_name = "simulated"
         print("train on:", species_name)
@@ -161,13 +142,13 @@ class CNN:
                                                  'validation_Y.npy')
             else:
                 train_x_path = os.path.join(self.project.samples_base_dir, self.project.species[index_to_train_on],
-                                            samples_k_lets_dirs[self.k - 1], 'train_X.npy')
+                                            self.project.k_let_dirs[self.k - 1], 'train_X.npy')
                 train_y_path = os.path.join(self.project.samples_base_dir, self.project.species[index_to_train_on],
-                                            samples_k_lets_dirs[self.k - 1], 'train_Y.npy')
+                                            self.project.k_let_dirs[self.k - 1], 'train_Y.npy')
                 validation_x_path = os.path.join(self.project.samples_base_dir, self.project.species[index_to_train_on],
-                                                 samples_k_lets_dirs[self.k - 1], 'validation_X.npy')
+                                                 self.project.k_let_dirs[self.k - 1], 'validation_X.npy')
                 validation_y_path = os.path.join(self.project.samples_base_dir, self.project.species[index_to_train_on],
-                                                 samples_k_lets_dirs[self.k - 1], 'validation_Y.npy')
+                                                 self.project.k_let_dirs[self.k - 1], 'validation_Y.npy')
         else:  # simulated data
             train_x_path = os.path.join(self.project.samples_base_dir, 'train_X.npy')
             train_y_path = os.path.join(self.project.samples_base_dir, 'train_Y.npy')

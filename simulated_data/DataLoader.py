@@ -33,7 +33,7 @@ class DataLoader(object):
         self.motifs_dir = motifs_base_path
 
     def create_npy_files(self):
-        print("\nstart creating npy files for samples of motif: ", self.project.PWM)
+        print "\nstart creating npy files for samples of motif: ", self.project.PWM
         PWM_path = os.path.join(self.motifs_dir, self.project.PWM+"_pfm_new.txt")
         if self.project.normal_distribution:
             motif_centers = data_handle.generate_random_motif_centers(self.mu, self.project.sigma,
@@ -54,13 +54,11 @@ class DataLoader(object):
             path_out_npy_files_dir = self.project.samples_base_dir
             path_out_text_samples_dir = self.project.text_samples_base_dir
         if self.project.sigma:
-            print("self.project.sigma = ", self.project.sigma)
-
             if not os.path.exists(path_out_npy_files_dir) and not os.path.isdir(path_out_npy_files_dir):
-                print("make directory: ", path_out_npy_files_dir)
+                print "make directory: ", path_out_npy_files_dir
                 os.makedirs(path_out_npy_files_dir)
             if not os.path.exists(path_out_text_samples_dir) and not os.path.isdir(path_out_text_samples_dir):
-                print("make directory: ", path_out_text_samples_dir)
+                print "make directory: ", path_out_text_samples_dir
                 os.makedirs(path_out_text_samples_dir)
 
         positive_samples_file_path = os.path.join(path_out_text_samples_dir, "positive_samples")
@@ -84,7 +82,7 @@ class DataLoader(object):
             elif sample.get_label() == 0:
                 negative_samples.append(sample)
         # write positive and negative text files:
-        print("write positive and negative text files ... ")
+        print "write positive and negative text files ... "
         with open(positive_samples_file_path, 'w') as pos_out:
             for sample in positive_samples:
                 pos_out.write(sample.get_sample_str()+"\n")
@@ -111,11 +109,10 @@ class DataLoader(object):
             print "section: ", section
             path_out_text_X, path_out_text_Y = data_handle.get_path(path_out_text_samples_dir,
                                                                     section)
-            print("path_out_npy_files_dir: ", path_out_npy_files_dir)
             path_out_npy_X, path_out_npy_Y = data_handle.get_path(path_out_npy_files_dir,
                                                                   section)
-            start, end = indices[section]
-            # print("start, end =", start, end)
+            start = int(indices[section][0])
+            end = int(indices[section][1])
             np.save(path_out_npy_X, samples[start: end])
             np.save(path_out_npy_Y, labels[start: end])
             with open(path_out_text_X, 'w') as out_text_samples:

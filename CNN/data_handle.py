@@ -48,7 +48,6 @@ def read_PWM_from_file(PWM_path):
             if line.isspace():
                 continue
             if line.startswith(">"):
-                print("line: ", line)
                 continue
             split_line = line.split()
             if len(split_line) == BASES_NUMBER:
@@ -68,7 +67,6 @@ def read_PWM_from_file(PWM_path):
     array_counts_all_bases = np.array(counts_all_bases)
     if len(array_counts_all_bases[0]) == BASES_NUMBER:
         array_counts_all_bases = np.transpose(array_counts_all_bases)
-    print("np.shape(array_counts_all_bases) = ", np.shape(array_counts_all_bases))
     return array_counts_all_bases
 
 
@@ -162,8 +160,6 @@ def create_one_motif(normalized_PWM):
 
 
 def create_frequency_matrix_with_pseudo_counts(PWM_path, is_original=False, is_denovo=False):
-    # print("create_frequency_matrix_with_pseudo_counts, PWM_path = ", PWM_path)
-
     if is_original:
         PWM = read_original_JASPAR_PWM_from_file(PWM_path)
     else:
@@ -273,10 +269,8 @@ def create_positive_or_negative_samples(project, is_positive, index_of_iteration
     out_path_dir = project.text_samples_base_dir
     if species_name:
         out_path_dir = os.path.join(out_path_dir,  species_name)
-    print("in create_positive_or_negative_samples: out_path_dir = ", out_path_dir)
-
     if not os.path.exists(out_path_dir) and not os.path.isdir(out_path_dir):
-        print("make directory: ", out_path_dir)
+        print "make directory: ", out_path_dir
         os.makedirs(out_path_dir)
     if is_positive:
         out_path_str = os.path.join(out_path_dir, "positive_samples")
@@ -287,7 +281,6 @@ def create_positive_or_negative_samples(project, is_positive, index_of_iteration
     if not type(samples_paths) == list:
         samples_paths = [samples_paths]
     number_of_files = len(samples_paths)
-    print("number_of_files: ", number_of_files)
     with open(out_path_str, 'w+') as out:
         for file_idx in range(number_of_files):
             samples_path_1 = samples_paths[file_idx]
@@ -374,10 +367,7 @@ def draw_histogram(motif_centers_int, project, mu, sigma):
     ax = fig.add_subplot(111)
 
     count, bins, ignored = plt.hist(motif_centers_int, bin_numbers, color="#0000FF")
-                                    # edgecolor="none")
     max_count = max(count)
-    print("max_count = ", max_count)
-
     ax.text(50, max_count-int(max_count/7),
             'mean: '+str(int(mu))+'\nstandard deviation: '+str(sigma),
             style='italic', bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 3})
@@ -385,7 +375,7 @@ def draw_histogram(motif_centers_int, project, mu, sigma):
     ax.set_ylabel('counts')
     ax.set_xlim(0, SAMPLE_LENGTH)
     plt.savefig(figure_hist_path)
-    print("saving figure: ", figure_hist_path)
+    print "saving figure: ", figure_hist_path
 
 
 def draw_normed_histogram(motif_centers_int, project, mu, sigma):
@@ -404,11 +394,8 @@ def draw_normed_histogram(motif_centers_int, project, mu, sigma):
     ax = fig.add_subplot(111)
     maximum = max(motif_centers_int)
     minimum = min(motif_centers_int)
-    # number_of_bins = maximum - minimum + 1
-    # bin_numbers = np.linspace(minimum, maximum, number_of_bins)
     number_of_bins = 100
     bin_numbers = np.linspace(minimum, maximum, number_of_bins)
-
     # normed or is True - therefore the weights are normalized,
     # so that the integral of the density over the range remains 1.
     count, bins, ignored = plt.hist(motif_centers_int, bin_numbers, normed=True,
@@ -416,7 +403,6 @@ def draw_normed_histogram(motif_centers_int, project, mu, sigma):
     # The probability density for the Gaussian distribution:
     y = 1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-((bins-mu)**2)/(2*(sigma ** 2)))
     ax.plot(bins, y, linewidth=2, color='r')
-    max_count = max(count)
     ax.text(50, 0.008,
             'mean: ' + str(int(mu)) + '\nstandard deviation: ' + str(sigma),
             style='italic', bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 3})
@@ -424,8 +410,7 @@ def draw_normed_histogram(motif_centers_int, project, mu, sigma):
     ax.set_ylabel('counts')
     ax.set_xlim(0, SAMPLE_LENGTH)
     plt.savefig(figure_hist_normed_path)
-    print("saving figure: ", figure_hist_normed_path)
-
+    print "saving figure: ", figure_hist_normed_path
 
 def remove_files(base_dir, extension_to_remove, species):
     for species_name in species:

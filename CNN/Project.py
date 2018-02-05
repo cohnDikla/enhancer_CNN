@@ -39,7 +39,7 @@ class Project:
     k_let_dirs = ["preserving_"+str(k)+"-let_counts/" for k in range(1, MAXIMAL_K+1)]
 
     def __init__(self, project_name_and_PWM, base_path, k=None, normal_distribution=False, sigma=None, num_times_negative_data_is_taken=None):
-        # check if receive specific PWM
+        # check if receive a specific PWM
         if "_CEBPA_JASPAR" in project_name_and_PWM or "_HNF4A_JASPAR" in project_name_and_PWM\
                 or "_denovo" in project_name_and_PWM:
             motif_name = "_".join(project_name_and_PWM.split("_")[2:])
@@ -101,7 +101,7 @@ class Project:
             self.CNN_structure = CNN_structure(self.project_name)
             self.samples_base_dir = os.path.join(self.base_dir_data_path, "npy_files")
             self.text_samples_base_dir = os.path.join(self.base_dir_data_path, "samples")
-            if self.project_name=="negative_data_vs_k_shuffle":
+            if self.project_name == "negative_data_vs_k_shuffle":
                 self.species = H3K27ac_species_names_ordered
             if self.project_name.startswith("H3K27ac"):
                 self.species = H3K27ac_species_names_ordered
@@ -123,22 +123,19 @@ class Project:
                                                                   str(self.num_times_negative_data_is_taken) + "_times_negative_data",
                                                                   "samples")
                         self.samples_base_dir = os.path.join(self.base_dir_data_path,
-                                                                  str(self.num_times_negative_data_is_taken) + "_times_negative_data",
-                                                                  "npy_files")
-
-
+                                                             str(self.num_times_negative_data_is_taken) + "_times_negative_data",
+                                                             "npy_files")
             if self.k is None:
                 self.checkpoints_folder = os.path.join(self.project_base_path, "checkpoints/")
-
                 self.output_results_file = os.path.join(self.CNN_output_dir,
                                                         'CNN_models_summary.txt')
                 self.test_file = os.path.join(self.CNN_output_dir, 'CNN_test_output.txt')
             else:
                 self.checkpoints_folder = os.path.join(self.project_base_path,
                                                        "checkpoints",
-                                                        self.k_let_dirs[k-1])
+                                                       self.k_let_dirs[k-1])
                 self.output_results_file = os.path.join(self.CNN_output_dir,
-                                                    "CNN_models_summary_k_" + str(k) + ".txt")
+                                                        "CNN_models_summary_k_" + str(k) + ".txt")
                 self.test_file = os.path.join(self.CNN_output_dir,
                                               "CNN_test_output_k_" + str(k) + ".txt")
 
