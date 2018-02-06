@@ -10,10 +10,9 @@ import numpy as np
 import os
 import sys
 import math
+import ushuffle
 # get the directory of the script being run:
 base_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, base_path[:-len('/H3K27ac_vs_k_shuffle')])
-import ushuffle
 sys.path.insert(0, base_path[:-len('/H3K27ac_vs_k_shuffle')]+'/CNN/')
 import data_handle
 from SampleObject import SampleObject
@@ -64,9 +63,6 @@ H3K27ac_species_names_ordered = ["Human",
 
 labels_map = {0: (1, 0), 1: (0, 1)}
 
-# species_names_map = {"Canis_familiaris": "Dog", "Homo_sapiens": "Human",
-#                                 "Monodelphis_domestica": "Opossum", "Mus_musculus": "Mouse"}
-
 
 bases_map = {"A": 0, "C": 1, "G": 2, "T": 3}
 
@@ -77,21 +73,17 @@ def create_directories():
         species_dir_text = os.path.join(samples_out_base_dir_for_text_files, species_name)
         for species_dir in [species_dir_npy, species_dir_text]:
             if not os.path.exists(species_dir) and not os.path.isdir(species_dir):
-                print("make directory: ", species_dir)
+                print "make directory: ", species_dir
                 os.makedirs(species_dir)
             for k_let_dir in output_k_lets_dirs:
                 dir_k = os.path.join(species_dir, k_let_dir)
                 if not os.path.exists(dir_k) and not os.path.isdir(dir_k):
-                    print("make directory: ", dir_k)
+                    print "make directory: ", dir_k
                     os.makedirs(dir_k)
 
 
 def get_base(bases_binary_array):
-    # print("array = ",bases_binary_array)
-    # print ("type(bases_binary_array) = ", type(bases_binary_array))
     array_list = list(bases_binary_array[0])
-    # print("array = ",array_list)
-    # print ("type(bases_binary_array) = ", type(array_list))
     indices_bases_map = dict()
     for base,index in bases_map.items():
         indices_bases_map[index] = base
@@ -102,11 +94,10 @@ def get_base(bases_binary_array):
 def translate_bases_from_original_sample(letter):
     if letter in bases_map.keys():
         return bases_map[letter]
-    # if the letter is not A,G,C or T, it is N.
-    # in this case we choose one of the 4 letters A,C,G,T randomly.
+    # if the letter is not A,G,C or T, we print an error message and exit.
     else:
         print "Error! base is : ", letter
-        exit()
+        exit(1)
 
 
 def convert_sample_to_matrix(sample):
@@ -121,7 +112,6 @@ def convert_sample_to_matrix(sample):
     return one_hot_matrix
 
 
-
 def concatenate_bases(bases):
     motif = ""
     for base in bases:
@@ -133,24 +123,11 @@ def create_one_positive_sample(sample):
     bases = []
     for i in range(SAMPLE_LENGTH):
         bases.append(sample[i])
-    # print("bases: ",bases)
     sample_str = concatenate_bases(bases)
     sample_matrix = convert_sample_to_matrix(sample_str)
-    # print ("in create_one_positive_sample,  len(sample_matrix) = ", len(sample_matrix))
-    # print("sample: ",sample)
-    # print ("len(sample) = ",len(sample))
     return sample_str, sample_matrix
 
 
-####################################### creation of negative examples #########################################
-
-# uses the uShuffle library.
-# link - uShuffle:
-# http://digital.cs.usu.edu/~mjiang/ushuffle/
-# How to Use uShuffle in Python:
-# http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
-
-# new creation of negative samples:
 # generate the negative samples from the positive samples shuffled,
 # while preserving the k-let counts
 def create_one_negative_sample_preserve_singles_distribution(sample, k):
@@ -159,19 +136,14 @@ def create_one_negative_sample_preserve_singles_distribution(sample, k):
         bases.append(sample[i])
 
     sample = concatenate_bases(bases)
-    # print "before shuffle = sample: ",sample
-
     # shuffle the string sequence while preserving the k-let counts:
     sample_str = ushuffle.shuffle(sample, SAMPLE_LENGTH, k)
-
-    # print "after shuffle = sample: ",sample_str
 
     sample_matrix = convert_sample_to_matrix(sample_str)
     return sample_str, sample_matrix
 
 
 def create_positive_or_negative_samples(species, is_positive, k=None):
-    # print("in create_negative_samples, species_index = ", species_index)
     samples = []
     if is_positive:
         out_path = os.path.join(samples_out_base_dir_for_text_files, species, "positive_samples")
@@ -184,15 +156,14 @@ def create_positive_or_negative_samples(species, is_positive, k=None):
 
             for line in samples_file:
                 sequence = line
-                # print("len(sequence) = ", len(sequence))
-
+             
                 if len(sequence) > SAMPLE_LENGTH:
-                    # print ("here")
+                   
                     center = int(len(sequence)/2)
                     half_sample = int((SAMPLE_LENGTH+1)/2)
 
                     sample = sequence[(center-half_sample):(center+half_sample)]
-                    # print ("len(new_sample) = ", len(sample))
+                    
 
                     if len(sample) < SAMPLE_LENGTH:
                         sample = sequence[(center-half_sample-1):(center+half_sample+1)]
@@ -206,13 +177,7 @@ def create_positive_or_negative_samples(species, is_positive, k=None):
                     sample_str, sample_matrix = create_one_negative_sample_preserve_singles_distribution(sample, k)
 
                 out.write(sample_str+"\n")
-
-                # sample_matrix = convert_sample_to_matrix(sample)
-                # print ("in create_negative_samples,  len(sample_matrix) = ", len(sample_matrix))
-
                 samples.append(sample_matrix)
-                # print("added one sample")
-
                 samples_counter += 1
 
                 if samples_counter >= NUMBER_OF_POSITIVE_EXAMPLES:
@@ -227,8 +192,8 @@ def create_data(k, species):
 
     positive_samples = create_positive_or_negative_samples(species, True)
     negative_samples = create_positive_or_negative_samples(species, False, k)
-    print "len(positive_samples) = ", len(positive_samples)
-    print "len(negative_samples) = ", len(negative_samples)
+    print "number of positive samples: ", len(positive_samples)
+    print "number of negative samples: ", len(negative_samples)
     return positive_samples, negative_samples
 
 
@@ -242,7 +207,6 @@ def convert_labels_to_one_hot(raw_labels):
 
 def main():
     create_directories()
-
     # the k-lets counts are preserved during the negative samples generation
     for k in range(1, MAXIMAL_K+1):
         print "start creating data, k = ", k
@@ -280,14 +244,6 @@ def main():
             test_start_idx = validation_end_idx
             test_end_idx = validation_end_idx + int(math.ceil(len(all_Xs) * test_ratio))
             indices["test"] = (test_start_idx, test_end_idx)
-
-            print
-            "train_start_idx = ", train_start_idx, \
-            "\ntrain_end_idx = ", train_end_idx, \
-            "\nvalidation_start_idx = ", validation_start_idx, \
-            "\nvalidation_end_idx = ", validation_end_idx, \
-            "\ntest_start_idx = ", test_start_idx, \
-            "\ntest_end_idx = ", test_end_idx, "\n"
 
             # save npy files for each species
 
@@ -330,10 +286,7 @@ def main():
                 print "section: ", section
                 path_out_text_X, path_out_text_Y = data_handle.get_path(dir_path,
                                                                         section)
-
                 start, end = indices[section]
-                # print("start, end =", start, end)
-
                 with open(path_out_text_X, 'w') as out_text_samples:
                     string = '\n'.join(text_samples[start: end])
                     out_text_samples.write(string)
@@ -342,7 +295,7 @@ def main():
                     out_text_labels.write(string)
 
 
-    print("end! :)")
+    print "End! :)"
 
 if __name__ == "__main__":
     main()
