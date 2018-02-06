@@ -375,7 +375,7 @@ def draw_histogram(motif_centers_int, project, mu, sigma):
     ax.set_ylabel('counts')
     ax.set_xlim(0, SAMPLE_LENGTH)
     plt.savefig(figure_hist_path)
-    print "saving figure: ", figure_hist_path
+    print("saving figure: ", figure_hist_path)
 
 
 def draw_normed_histogram(motif_centers_int, project, mu, sigma):
@@ -410,7 +410,7 @@ def draw_normed_histogram(motif_centers_int, project, mu, sigma):
     ax.set_ylabel('counts')
     ax.set_xlim(0, SAMPLE_LENGTH)
     plt.savefig(figure_hist_normed_path)
-    print "saving figure: ", figure_hist_normed_path
+    print("saving figure: ", figure_hist_normed_path)
 
 def remove_files(base_dir, extension_to_remove, species):
     for species_name in species:
