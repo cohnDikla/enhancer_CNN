@@ -1,10 +1,12 @@
 Enhancer Identification from DNA sequence using Transfer and Adversarial Deep Learning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Dikla Cohn, Or Zuk and Tommy Kaplan
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 use:
-Python 3.5.2+
+Python 3.5.2+ and Python2.7
 tensorflow 1.1.0
 used on Linux machine, gpu (nvidia tesla M60)
 
@@ -13,6 +15,11 @@ for k-shuffling we used the uShuffle tool:
 uShuffle: A useful tool for shuffling biological sequences while preserving the k-let counts.
 Jiang, M. et al., 2008
 BMC Bioinformatics 2008 9:192
+link for downloading the uShuffle library: 
+http://digital.cs.usu.edu/~mjiang/ushuffle/
+# How to Use uShuffle in Python:
+http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
+Build a shared library ushuffle.so and save it in the main directory (enhancer_CNN/). 
 
 for finding denovo motifs and comparing to known motifs we used the Homer tool:
 Heinz, S. et al., 2010

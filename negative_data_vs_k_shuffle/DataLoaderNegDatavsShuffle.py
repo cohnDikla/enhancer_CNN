@@ -17,10 +17,8 @@ class DataLoaderNegDatavsShuffle(DataLoaderH3K27acvsNeg):
     """
     Data Loader class for the project of H3K27ac_vs_negative_data.
     """
-
     def __init__(self, project):
-        # self.ratio_of_samples_from_all_species = 0.55
-        self.ratio_of_samples_from_all_species = 0.8
+        self.ratio_of_samples_from_all_species = 1
         super(DataLoaderNegDatavsShuffle, self).__init__(project)
 
 
@@ -96,7 +94,6 @@ class DataLoaderNegDatavsShuffle(DataLoaderH3K27acvsNeg):
                     current_number_of_samples_in_section += 1
                     number_of_samples_in_section = \
                         2*(self.project.get_number_of_samples())*(self.section_ratios[section_index])
-                    # TODO for now - takes only <self.ratio_of_samples_from_all_species> samples from each section
                     if current_number_of_samples_in_section >= (number_of_samples_in_section * self.ratio_of_samples_from_all_species):
                         break
 
@@ -117,16 +114,7 @@ class DataLoaderNegDatavsShuffle(DataLoaderH3K27acvsNeg):
                     test_samples_14000.extend(random_section_samples)
                     test_samples_238000.extend(section_samples_per_species)
             section_index += 1
-        # print "len(train_samples_14000) = ", len(train_samples_14000)
-        # print "len(validation_samples_14000) = ", len(validation_samples_14000)
-        # print "len(test_samples_14000) = ", len(test_samples_14000)
-        # print "len(train_samples_238000) = ", len(train_samples_238000)
-        # print "len(validation_samples_238000) = ", len(validation_samples_238000)
-        # print "len(test_samples_238000) = ", len(test_samples_238000)
-        # print "total 238000 train+validation+test: ", len(train_samples_238000) \
-        #         + len(validation_samples_238000) + len(test_samples_238000)
-        # print "total 14000 train+validation+test: ", len(train_samples_14000) \
-        #         + len(validation_samples_14000) + len(test_samples_14000)
+       
         for i in range(len(self.project.species)-2, len(self.project.species)):
             species_name = self.project.species[i]
             species_dir_text = os.path.join(self.project.text_samples_base_dir, species_name)

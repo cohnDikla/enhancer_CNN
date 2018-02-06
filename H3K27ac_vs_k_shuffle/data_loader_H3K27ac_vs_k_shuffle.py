@@ -10,9 +10,10 @@ import numpy as np
 import os
 import sys
 import math
-import ushuffle
 # get the directory of the script being run:
 base_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, base_path[:-len('/H3K27ac_vs_k_shuffle')])
+import ushuffle
 sys.path.insert(0, base_path[:-len('/H3K27ac_vs_k_shuffle')]+'/CNN/')
 import data_handle
 from SampleObject import SampleObject
