@@ -15,7 +15,6 @@ import test_CNN
 
 
 def main():
-    # os.system("module load tensorflow")
     project = test_CNN.get_project_and_check_arguments(sys.argv, "run_data_loader.py")
     print "start creating data for project: ", project.project_name
     for species in project.species:
@@ -31,7 +30,7 @@ def main():
 
     data_loader = DataLoaderH3K27acvsShuffle(project)
     data_loader.get_all_positive_and_negative_samples()
-    # data_loader.create_data_for_each_species()
+    
     data_loader.create_data_from_all_species_together()
     print "End!"
 

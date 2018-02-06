@@ -18,11 +18,10 @@ import test_CNN
 
 def main():
     project = test_CNN.get_project_and_check_arguments(sys.argv, "run_data_loader.py")
-    # data_handle.remove_files(project.text_samples_base_dir, ".txt", project.species)
     print "start creating data for project: ", project.project_name
     data_loader = DataLoaderNegDatavsShuffle(project)
     data_loader.get_all_positive_and_negative_samples()
-    # data_loader.create_data_for_each_species()
+ 
     data_loader.create_data_from_all_species_together()
     print "End!"
 

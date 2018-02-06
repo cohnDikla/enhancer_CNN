@@ -30,7 +30,7 @@ def main():
 
     data_loader = DataLoaderTFvsShuffle(project)
     data_loader.get_all_positive_and_negative_samples()
-    # data_loader.create_data_for_each_species()
+    
     data_loader.create_data_from_all_species_together()
     print "End!"
 
