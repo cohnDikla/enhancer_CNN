@@ -270,7 +270,7 @@ def create_positive_or_negative_samples(project, is_positive, index_of_iteration
     if species_name:
         out_path_dir = os.path.join(out_path_dir,  species_name)
     if not os.path.exists(out_path_dir) and not os.path.isdir(out_path_dir):
-        print "make directory: ", out_path_dir
+        print("make directory: ", out_path_dir)
         os.makedirs(out_path_dir)
     if is_positive:
         out_path_str = os.path.join(out_path_dir, "positive_samples")
