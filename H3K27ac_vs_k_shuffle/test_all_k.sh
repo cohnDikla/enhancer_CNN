@@ -9,7 +9,7 @@
 
 NUMBERS=$(seq 1 9)
 for NUM in ${NUMBERS}; do
-    srun python3 /cs/cbio/dikla/projects/CNN/run_test_CNN.py H3K27ac_vs_k_shuffle ${NUM};
+    srun python3 CNN/run_test_CNN.py H3K27ac_vs_k_shuffle ${NUM};
 done
 wait
 

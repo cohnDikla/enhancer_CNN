@@ -32,12 +32,9 @@ train_ratio = 0.7
 validation_ratio = 0.2
 test_ratio = 1 - train_ratio - validation_ratio
 
-samples_out_base_dir_for_npy_files = "/cs/cbio/dikla/projects/negative_data_vs_k_shuffle/data/npy_files/"
-
-samples_out_base_dir_for_text_files =  "/cs/cbio/dikla/projects/negative_data_vs_k_shuffle/data/samples/"
-
-
-
+samples_out_base_dir_for_npy_files = os.path.join(base_path, "negative_data_vs_k_shuffle", "data", "npy_files")
+samples_out_base_dir_for_text_files =  os.path.join(base_path, "negative_data_vs_k_shuffle", "data", "samples")
+samples_input_base_dir = os.path.join(base_path[:-len('/negative_data_vs_k_shuffle')]+'/H3K27ac_vs_negative_data/', "data", "samples")
 
 output_k_lets_dirs = ["preserving_"+str(k)+"-let_counts/" for k in range(1, MAXIMAL_K+1)]
 
@@ -146,9 +143,7 @@ def create_positive_or_negative_samples(species, is_positive, k=None):
         out_path = os.path.join(samples_out_base_dir_for_text_files, species, "positive_samples")
     else:
         out_path = os.path.join(samples_out_base_dir_for_text_files, species, output_k_lets_dirs[k - 1], "negative_samples")
-
-    samples_input_base_dir = "/cs/cbio/dikla/projects/H3K27ac_vs_k_shuffle/data/new_negative_data/final_negative_data/"
-    samples_file_path = os.path.join(samples_input_base_dir, species + "_final_samples_only_bases_without_N.txt")
+    samples_file_path = os.path.join(samples_input_base_dir, species,  "negative_samples")
     with open(out_path, 'w+') as out:
         with open(samples_file_path) as samples_file:
             samples_counter = 0
