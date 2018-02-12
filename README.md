@@ -81,7 +81,7 @@ for example:
 python3 /CNN/CNN_trainer.py simulated_data_CEBPA_JASPAR 50 20 normal_40
 
 for other projects:
-python3 /CNN/CNN_trainer.py <project_name> <num_runs> <num_epochs> [<k=None>]
+python3 /CNN/CNN_trainer.py <project_name> <num_runs> <num_epochs> [<k>]
 for example:
 python3 /CNN/CNN_trainer.py TF_vs_negative_data 50 20
 python3 /CNN/CNN_trainer.py TF_vs_k_shuffle 50 20 4
@@ -102,7 +102,7 @@ for example:
 python3 /CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR normal_40
 
 for other projects:
-python3 /CNN/run_test_CNN.py <project_name> [<k=None>]
+python3 /CNN/run_test_CNN.py <project_name> [<k>]
 for testing networks trained on all k values:
 sbatch /<project_name>/test_all_k.sh
 
@@ -110,19 +110,19 @@ sbatch /<project_name>/test_all_k.sh
 for simulated_data project:
 python3 /CNN/show_convolution.py simulated_data_CEBPA_JASPAR <normal_sigma>
 for other projects:
-python3 /CNN/show_convolution.py <project_name> [<k=None>]
+python3 /CNN/show_convolution.py <project_name> [<k>]
 
-5. tensor visualization: (used for Figure 4 and Figure 6)
+5. tensor visualization: (used for Figure4 and Figure6)
 for simulated_data project:
 python3 /CNN/tensor_visualization.py simulated_data_CEBPA_JASPAR <normal_sigma>
 for other projects:
-python3 /CNN/tensor_visualization.py <project_name> [<k=None>]
+python3 /CNN/tensor_visualization.py <project_name> [<k>]
 
 6. Compare to known motifs (using the Homer tool - compareMotifs.pl):  (used for Figure 4 and Figure 6)
 for simulated_data project:
 python3 /motifs/read_filters_and_run_Homer_compare_motifs.py simulated_data_CEBPA_JASPAR <normal_sigma>
 for other projects:
-python3 /motifs/read_filters_and_run_Homer_compare_motifs.py <project_name> [<k=None>]
+python3 /motifs/read_filters_and_run_Homer_compare_motifs.py <project_name> [<k>]
 
 7. Homer find denovo and known motifs (using the Homer tool - findMotifs.pl):
 for simulated_data project:
@@ -130,8 +130,8 @@ python3 /create_data_for_Homer.py simulated_data_CEBPA_JASPAR <normal_sigma>
 python3 /run_Homer_find_denovo_motifs.py simulated_data_CEBPA_JASPAR <normal_sigma> 
 
 for other projects:
-python3 /create_data_for_Homer.py <project_name> [<k=None>]
-python3 /run_Homer_find_denovo_motifs.py <project_name> [<k=None>]
+python3 /create_data_for_Homer.py <project_name> [<k>]
+python3 /run_Homer_find_denovo_motifs.py <project_name> [<k>]
 
 
 
@@ -157,21 +157,23 @@ python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_denovo normal_40
 
     Figures:
     ~~~~~~~~
-Figure 2:
+Figure2:
 python3 /roc_comparison.py simulated_data_CEBPA_JASPAR normal_<sigma>
 for example,
 python3 /roc_comparison.py simulated_data_CEBPA_JASPAR normal_40
 
-Figure 3:
+Figure3 and supp.Figure3:
 For TF projects:
-python3 /CNN/display_heatmap_TF.py <project_name> [<k=None>]
+python3 /CNN/display_heatmap_TF.py <project_name> [<k>]
+
 for example:
 python3 /CNN/display_heatmap_TF.py TF_vs_negative_data
-python3 /CNN/display_heatmap_TF.py TF_vs_k_shuffle 4
+python3 /CNN/display_heatmap_TF.py TF_vs_k_shuffle <k>
 and similarly for enhancer projects:
-python3 /CNN/display_heatmap_H3K27ac.py <project_name> [<k=None>]
+python3 /CNN/display_heatmap_enhancer.py H3K27ac_vs_negative_data
+python3 /CNN/display_heatmap_enhancer.py H3K27ac_vs_k_shuffle <k>
 
-Figure 5:
+Figure5:
 python3 /CNN/display_k_graph_different_models.py TF_vs_k_shuffle negative_data_vs_k_shuffle H3K27ac_vs_k_shuffle
 
 
