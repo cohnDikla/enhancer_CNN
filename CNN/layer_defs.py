@@ -7,7 +7,6 @@ import scipy.stats as stats
 """
 A module for creating definitions of the CNN layers.
 """
-
 bases_map = {"A": 0, "C": 1, "G": 2, "T": 3}
 BASIS_NUMBER = 4
 

@@ -2,8 +2,6 @@
 class CNN_structure:
     def __init__(self, project_name):
         if project_name == "simulated_data_normal_dist_centers":
-            print("here")
-            exit()
             self.set_simulated_data_normal_centers_structure()
         elif project_name == "negative_data_vs_k_shuffle":
             self.set_negative_data_vs_k_shuffle()

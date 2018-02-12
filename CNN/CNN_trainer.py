@@ -20,7 +20,7 @@ init_according_to_given_filters = False  # update for planted filters
 init_model_ids = ["All_species_238000_k_2_20180116154913.UOUWIMmM",
                   "All_species_238000_k_3_20180116152307.qznh2WrM",
                   "All_species_238000_k_4_20180106224244.w9xbYWXj"]
-n = None  # update
+n = None  # update for expanded negative data
 
 
 def get_project_and_check_arguments(argv, script_name):

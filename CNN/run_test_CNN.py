@@ -11,18 +11,14 @@ train_on_all_samples = False
 train_on_human = True
 train_on_dog = False
 
-# n = 2  # TODO update
-n = None
+
+n = None  # update for expanded negative data
 
 def main():
     # os.system("module load tensorflow;")
     project = test_CNN.get_project_and_check_arguments(sys.argv, 'run_test_CNN.py')
     project.num_times_negative_data_is_taken = n
     sorted_models_list, map_model_ids = test_CNN.get_sorted_models_list(project)
-    print("map_model_ids: ", map_model_ids)
-    # output_dir = os.path.join(project.CNN_output_dir,
-    #                           project.distribution_samples_center_dir,
-    #                           project.PWM)
     sum_auc = 0
     with open(project.test_file, 'a+') as out_file:
         number_of_species = len(project.species)
