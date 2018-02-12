@@ -6,7 +6,7 @@ SHUF='TF_vs_k_shuffle'      # k-shuffle projects
 # Specific commands for the simulated data project appear at each step.
 
 # for the k-shuffle projects (TF_vs_k_shuffle, H3K27ac_vs_k_shuffle or negative_data_vs_k_shuffle), 
-add a specific value of <k> (between 1 and 9) at the end of each command.
+# add a specific value of <k> (between 1 and 9) at the end of each command.
 
 # Step 1: load data
 # for simulated data project:
