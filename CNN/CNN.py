@@ -1,5 +1,5 @@
 import tensorflow as tf
-from time import gmtime, strftime
+import time
 import os
 import subprocess
 import random
@@ -14,7 +14,7 @@ class CNN:
     LOSS_EPSILON = 0.01
 
     def __init__(self, project, num_epochs, num_runs, species_to_train_on=None, k=None, n=None,
-                 init_according_to_given_filters=False, init_model_ids=None):
+                 init_according_to_given_filters=False, init_model_ids=None, start_time=None):
         self.project = project
         self.num_epochs = num_epochs
         self.NUM_RUNS = num_runs  # the final accuracy is the max accuracy of the {self.NUM_RUNS} runs
@@ -24,6 +24,8 @@ class CNN:
         self.project.num_times_negative_data_is_taken = self.n
         self.init_according_to_given_filters = init_according_to_given_filters
         self.init_model_ids = init_model_ids
+        self.start_time = start_time
+
 
     def inference(self, seqs_placeholder, keep_prob_placeholder):
             """"
@@ -82,7 +84,7 @@ class CNN:
         return model_id
 
     def uid(self):
-        model_id = strftime("%Y%m%d%H%M%S") + "." + ''.join(
+        model_id = time.strftime("%Y%m%d%H%M%S") + "." + ''.join(
             [random.choice(string.ascii_letters + string.digits) for _ in range(8)])
         if self.species_to_train_on is not None:
             species_name = self.project.species[self.species_to_train_on]
@@ -155,8 +157,8 @@ class CNN:
             validation_x_path = os.path.join(self.project.samples_base_dir, 'validation_X.npy')
             validation_y_path = os.path.join(self.project.samples_base_dir, 'validation_Y.npy')
 
-        train_set = DataSetObject(train_x_path, train_y_path, self.num_epochs)
-        validation_set = DataSetObject(validation_x_path, validation_y_path, self.num_epochs)
+        train_set = DataSetObject(train_x_path, train_y_path)
+        validation_set = DataSetObject(validation_x_path, validation_y_path)
         merged_summary_op = tf.summary.merge_all()
 
         validation_batch = validation_set.get_next_batch(self.project.CNN_structure.mini_batch_size)
@@ -170,6 +172,7 @@ class CNN:
             stop = False
             for num_run in range(self.NUM_RUNS):
                 print("start run #", num_run+1)
+                start_run_time = time.time()
                 train_set.initialize_epoch_and_position()
                 validation_set.initialize_epoch_and_position()
                 # skip_run = False
@@ -181,7 +184,6 @@ class CNN:
                 sess.run(tf.global_variables_initializer())
                 num_iterations_in_one_epoch = int(train_set.get_num_samples() / self.project.CNN_structure.mini_batch_size) + \
                                    (train_set.get_num_samples() % self.project.CNN_structure.mini_batch_size)
-                print("num_iterations_in_one_epoch = ", num_iterations_in_one_epoch)
                 step = 0
                 for i in range(num_iterations_in_one_epoch * self.num_epochs):
                     step += 1
@@ -212,7 +214,7 @@ class CNN:
                         validation_accuracy = accuracy.eval(feed_dict={x_in: validation_batch_samples,
                                                                        y_in: validation_batch_labels,
                                                                        keep_prob: 1.0})
-                        time_str = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+                        time_str = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
                         # if train_set.get_current_position_in_epoch() > (num_iterations_in_one_epoch * (self.num_epochs-1)):
                         print("{0} - epoch {1}, training accuracy: {2:.3f}, "
                           "validation accuracy: {3:.3f}".format(time_str,
@@ -221,6 +223,8 @@ class CNN:
                                                                 validation_accuracy))
 
                 # save the trained model if its better than before:
+                end_run_time = time.time() - start_run_time
+                print("Running time of run #", num_run+1, ': {0:0.2f} seconds'.format(end_run_time))
                 if validation_accuracy > max_validation_accuracy:
                     max_validation_accuracy = validation_accuracy
 

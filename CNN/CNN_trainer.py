@@ -5,24 +5,23 @@ Loads pickled object arrays of samples previously stored in npy files.
 """
 __author__ = 'Dikla Cohn'
 import os
-base_path = os.path.dirname(os.path.abspath(__file__))
 import sys
+import time
 from CNN import CNN
 from Project import Project
-
+base_path = os.path.dirname(os.path.abspath(__file__))
 
 trained_on_one_species_only = False
-train_on_human = True
 train_on_all_samples = False
+train_on_human = False
 train_on_dog = False
 
-init_according_to_given_filters = False  # TODO update for planted filters!
+init_according_to_given_filters = False  # update for planted filters
 init_model_ids = ["All_species_238000_k_2_20180116154913.UOUWIMmM",
                   "All_species_238000_k_3_20180116152307.qznh2WrM",
                   "All_species_238000_k_4_20180106224244.w9xbYWXj"]
+n = None  # update
 
-# n = 2  # TODO update!
-n = None
 
 def get_project_and_check_arguments(argv, script_name):
     if len(argv) not in [4, 5]:
@@ -37,7 +36,6 @@ def get_project_and_check_arguments(argv, script_name):
     if len(argv) == 5:
         if argv[4].isdigit():
             k = int(argv[4])
-            print("k = ", k)
         else:
             is_normal_distribution = bool(argv[4])  # True
             sigma = int(argv[4].split("_")[1])
@@ -45,11 +43,9 @@ def get_project_and_check_arguments(argv, script_name):
     if k:
         project = Project(project_name, base_path_projects, k=k)
     else:
-        project = Project(project_name, base_path_projects, normal_distribution=is_normal_distribution,
+        project = Project(project_name, base_path_projects,
+                          normal_distribution=is_normal_distribution,
                           sigma=sigma)
-        print("normal_distribution: ", bool(is_normal_distribution))
-    print("output_results_file = ", project.output_results_file)
-    print("checkpoints_folder = ", project.checkpoints_folder)
     return project, num_runs, num_epochs
 
 
@@ -66,11 +62,28 @@ def create_directories(project):
             os.makedirs(dir_k)
 
 
+def create_directories_simulated_data(project):
+    output_dir_dist = os.path.join(project.CNN_output_dir,
+                                   project.distribution_samples_center_dir)
+    if not os.path.exists(output_dir_dist) and not os.path.isdir(output_dir_dist):
+        print("make directory: ", output_dir_dist)
+        os.makedirs(output_dir_dist)
+    output_dir = os.path.join(project.CNN_output_dir,
+                              project.distribution_samples_center_dir,
+                              project.PWM)
+    if not os.path.exists(output_dir) and not os.path.isdir(output_dir):
+        print("make directory: ", output_dir)
+        os.makedirs(output_dir)
+
+
 def main():
+    t = time.time()
     project, num_runs, num_epochs = get_project_and_check_arguments(sys.argv, "CNN_trainer.py")
     number_of_species = len(project.species)
     if project.k:
         create_directories(project)
+    elif project.project_name == "simulated_data":
+        create_directories_simulated_data(project)
 
     for i in range(number_of_species):
         if trained_on_one_species_only:
@@ -90,15 +103,14 @@ def main():
                 continue
         if project.project_name == "simulated_data":
             species_to_train_on = None
-            str_species_to_train_on = "None"
+            str_species_to_train_on = "Simulated"
         else:
             species_to_train_on = i
             str_species_to_train_on = project.species[species_to_train_on]
-            print("str_species_to_train_on = ", str_species_to_train_on)
         # create and evaluate the model
         net = CNN(project, num_epochs, num_runs, species_to_train_on=species_to_train_on,
                   k=project.k, n=n, init_according_to_given_filters=init_according_to_given_filters,
-                  init_model_ids=init_model_ids)
+                  init_model_ids=init_model_ids, start_time=t)
         # evaluate without test:
         max_validation_accuracy, best_model_validation_id, best_run_validation_index = \
             net.evaluate()
@@ -107,6 +119,8 @@ def main():
             print("make directory: ", output_dir)
             os.makedirs(output_dir)
         # output the accuracy and params
+        if not os.path.exists(project.output_results_file):
+            open(project.output_results_file, 'w')
         with open(project.output_results_file, 'a') as f:  # appends the line at the end of the file
             f.write('train: {0}\t'
                     'max_validation_accuracy: {1:.3f}\t'
@@ -119,7 +133,8 @@ def main():
                                              str(project.k), str(num_epochs), str(num_runs)))
             f.flush()
         project.print_project_details(project.output_results_file)
-
+    elapsed = time.time() - t
+    print('Total training time (all runs): {0:0.2f} seconds'.format(elapsed))
     print("end of script! :)")
 
 if __name__ == "__main__":

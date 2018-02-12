@@ -17,7 +17,7 @@ Jiang, M. et al., 2008
 BMC Bioinformatics 2008 9:192
 link for downloading the uShuffle library: 
 http://digital.cs.usu.edu/~mjiang/ushuffle/
-# How to Use uShuffle in Python:
+How to Use uShuffle in Python:
 http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
 Build a shared library ushuffle.so and save it in the main directory (enhancer_CNN/). 
 
@@ -42,7 +42,7 @@ each file should contain:
 for TF data - 12K lines (samples)
 for H3K27ac data - 14K lines (samples)
 - as in the given example files, located in: TF_vs_negative_data/data/samples/example/
-[you can use the: create_species_dirs.py script to create species directories (already created in each project)]. 
+you can use the: create_species_dirs.py script to create species directories (already created in each project). 
 
  
 Specifically for the simulated_data project, no need to create positive and negative samples in advance.
@@ -73,38 +73,81 @@ python2.7 /negative_data_vs_k_shuffle/data_loader_negative_data_vs_k_shuffle_eac
 This module creates data for each species separately, and for all values of k (k=1,...,9).
 
 2. CNN train:
-# CNN_trainer creates tar files of new network models, and saves them to <project_name>/checkpoints dir. 
-python3 /CNN/CNN_trainer.py <project_name> <num_runs> <num_epochs> [<k=None> or <normal_sigma>]
-[train on all k values: sbatch /<project_name>/train_all_k.sh]
+CNN_trainer creates tar files of new network models, and saves them to <project_name>/checkpoints dir. 
 
-# copy tar files from: <project_name>/checkpoints dir to: <project_name>/checkpoints_tmp dir,
-# such that checkpoints_tmp dir will contain only tar files of models you wish to test on.
+for simulated_data project:
+python3 /CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR <num_runs> <num_epochs> normal_<sigma>
+for example:
+python3 /CNN/CNN_trainer.py simulated_data_CEBPA_JASPAR 50 20 normal_40
+
+for other projects:
+python3 /CNN/CNN_trainer.py <project_name> <num_runs> <num_epochs> [<k=None>]
+for example:
+python3 /CNN/CNN_trainer.py TF_vs_negative_data 50 20
+python3 /CNN/CNN_trainer.py TF_vs_k_shuffle 50 20 4
+python3 /CNN/CNN_trainer.py H3K27ac_vs_negative_data 50 20
+python3 /CNN/CNN_trainer.py H3K27ac_vs_k_shuffle 50 20 4
+
+for training on all k values:
+sbatch /<project_name>/train_all_k.sh
+
+Before testing:
+copy tar files from: <project_name>/checkpoints dir to: <project_name>/checkpoints_tmp dir,
+such that checkpoints_tmp dir will contain only tar files of models you wish to test on.
 
 3. CNN test:
-python3 /CNN/run_test_CNN.py <project_name> [<k=None> or <normal_sigma>]
-all k's:
-[test on all k values: sbatch /<project_name>/test_all_k.sh]
+for simulated_data project:
+python3 /CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR normal_<sigma>
+for example:
+python3 /CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR normal_40
+
+for other projects:
+python3 /CNN/run_test_CNN.py <project_name> [<k=None>]
+for testing networks trained on all k values:
+sbatch /<project_name>/test_all_k.sh
 
 4. show convolution:
-python3 /CNN/show_convolution.py <project_name> [<k=None> or <normal_sigma>]
+for simulated_data project:
+python3 /CNN/show_convolution.py simulated_data_CEBPA_JASPAR <normal_sigma>
+for other projects:
+python3 /CNN/show_convolution.py <project_name> [<k=None>]
 
 5. tensor visualization: (used for Figure 4 and Figure 6)
-python3 /CNN/tensor_visualization.py <project_name> [<k=None> or <normal_sigma>]
+for simulated_data project:
+python3 /CNN/tensor_visualization.py simulated_data_CEBPA_JASPAR <normal_sigma>
+for other projects:
+python3 /CNN/tensor_visualization.py <project_name> [<k=None>]
 
 6. Compare to known motifs (using the Homer tool - compareMotifs.pl):  (used for Figure 4 and Figure 6)
-python3 /motifs/read_filters_and_run_Homer_compare_motifs.py <project_name> [<k=None> or <normal_sigma>]
-
+for simulated_data project:
+python3 /motifs/read_filters_and_run_Homer_compare_motifs.py simulated_data_CEBPA_JASPAR <normal_sigma>
+for other projects:
+python3 /motifs/read_filters_and_run_Homer_compare_motifs.py <project_name> [<k=None>]
 
 7. Homer find denovo and known motifs (using the Homer tool - findMotifs.pl):
-python3 /create_data_for_Homer.py <project_name> [<k=None> or <normal_sigma>]
-python3 /run_Homer_find_denovo_motifs.py <project_name> [<k=None> or <normal_sigma>]
+for simulated_data project:
+python3 /create_data_for_Homer.py simulated_data_CEBPA_JASPAR <normal_sigma>
+python3 /run_Homer_find_denovo_motifs.py simulated_data_CEBPA_JASPAR <normal_sigma> 
+
+for other projects:
+python3 /create_data_for_Homer.py <project_name> [<k=None>]
+python3 /run_Homer_find_denovo_motifs.py <project_name> [<k=None>]
+
 
 
 PSSM straw man model: (both with and without prior knowlegde regarding the distribution of planted motif's location)
 First PSSM model - uses PWM of CEBPA transcription factor from JASPAR:
-python3 /PSSM_straw_man_model/straw_man_model.py <project_name>_CEBPA_JASPAR normal_<sigma>
+for simulated_data project:
+python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_CEBPA_JASPAR normal_<sigma>
+for other projects:
+python3 /PSSM_straw_man_model/straw_man_model.py <project_name>
+
 Second PSSM model - uses PWM of denovo motif (first result in Homer findMotifs, when running on positive vs. negative data):
-python3 /PSSM_straw_man_model/straw_man_model.py <project_name>_denovo normal_<sigma>
+for simulated_data project:
+python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_denovo normal_<sigma>
+for other projects:
+python3 /PSSM_straw_man_model/straw_man_model.py <project_name>
+
 for example,
 python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_CEBPA_JASPAR normal_40
 python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_denovo normal_40

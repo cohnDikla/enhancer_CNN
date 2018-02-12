@@ -1,26 +1,26 @@
 import os
 from CNN_structure import CNN_structure
 
-H3K27ac_species_names_ordered = ["Human",
-                         "Dog",
-                         "Dolphin",
-                         "Tasmanian_Devil",
-                         "Ferret",
-                         "Guinea_pig",
-                         "Tree_shrew",
-                         "Marmoset",
-                         "Cat",
-                         "Cow",
-                         "Opossum",
-                         "Mouse",
-                         "Macaque",
-                         "Rabbit",
-                         "Naked_mole_rat",
-                         "Rat",
-                         "Pig",
-                         "All_species_238000",
-                         "All_species_14000"]
 
+H3K27ac_species_names_ordered = ["Human",
+                                 "Macaque",
+                                 "Marmoset",
+                                 "Tree_shrew",
+                                 "Mouse",
+                                 "Rat",
+                                 "Guinea_pig",
+                                 "Naked_mole_rat",
+                                 "Rabbit",
+                                 "Cow",
+                                 "Dolphin",
+                                 "Pig",
+                                 "Dog",
+                                 "Cat",
+                                 "Ferret",
+                                 "Opossum",
+                                 "Tasmanian_Devil",
+                                 "All_species_14000",
+                                 "All_species_238000"]
 
 TF_species_names_ordered = ["Canis_familiaris", "Gallus_gallus", "Homo_sapiens",
                             "Monodelphis_domestica", "Mus_musculus",
@@ -30,7 +30,6 @@ TF_species_names_ordered_negative_data = ["Canis_familiaris", "Homo_sapiens",
                                           "Monodelphis_domestica", "Mus_musculus",
                                           "All_species_60000", "All_species_12000"]
 
-
 simulated_data_dirs = ["normal_dist_centers", "regular_centers"]
 
 
@@ -38,7 +37,8 @@ class Project:
     MAXIMAL_K = 9
     k_let_dirs = ["preserving_"+str(k)+"-let_counts/" for k in range(1, MAXIMAL_K+1)]
 
-    def __init__(self, project_name_and_PWM, base_path, k=None, normal_distribution=False, sigma=None, num_times_negative_data_is_taken=None):
+    def __init__(self, project_name_and_PWM, base_path, k=None, normal_distribution=False,
+                 sigma=None, num_times_negative_data_is_taken=None):
         # check if receive a specific PWM
         if "_CEBPA_JASPAR" in project_name_and_PWM or "_HNF4A_JASPAR" in project_name_and_PWM\
                 or "_denovo" in project_name_and_PWM:
@@ -64,7 +64,6 @@ class Project:
         self.base_dir_data_path = os.path.join(self.project_base_path, "data")
         self.original_samples_dir = None
         self.checkpoints_folder_tmp = os.path.join(self.project_base_path, "checkpoints_tmp")
-
         if self.project_name == "simulated_data":
             self.distribution_samples_center_dir = simulated_data_dirs[0] if self.normal_distribution else simulated_data_dirs[1]
             self.checkpoints_folder = os.path.join(self.project_base_path, "checkpoints/",
@@ -140,6 +139,8 @@ class Project:
                                               "CNN_test_output_k_" + str(k) + ".txt")
 
     def print_project_details(self, out_file):
+        if not os.path.exists(out_file):
+            open(out_file, 'w')
         with open(out_file, 'a') as f:  # appends the line at the end of the file
             f.write('num conv layers: ' + str(self.CNN_structure.num_conv_layers) + '\t')
             for layer_num in range(1, self.CNN_structure.num_conv_layers+1):
