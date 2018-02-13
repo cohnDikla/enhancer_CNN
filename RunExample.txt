@@ -23,32 +23,32 @@ python2.7 $SHUF/run_data_loader.py <k>
 
 # Step 2: train
 # train with 5 runs and 10 epochs in each run
-python3 /CNN/CNN_trainer.py simulated_data_CEBPA_JASPAR 5 10 normal_40
-python3 /CNN/CNN_trainer.py $PROJ 5 10
-python3 /CNN/CNN_trainer.py $SHUF 5 10 <k> 
+python3 CNN/CNN_trainer.py simulated_data_CEBPA_JASPAR 5 10 normal_40
+python3 CNN/CNN_trainer.py $PROJ 5 10
+python3 CNN/CNN_trainer.py $SHUF 5 10 <k> 
 
 
 # Step 3: test
-python3 /CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR normal_40
-python3 /CNN/run_test_CNN.py $PROJ
-python3 /CNN/run_test_CNN.py $SHUF <k>
+python3 CNN/run_test_CNN.py simulated_data_CEBPA_JASPAR normal_40
+python3 CNN/run_test_CNN.py $PROJ
+python3 CNN/run_test_CNN.py $SHUF <k>
 
 # Step 4: show convolution 
-python3 /CNN/show_convolution.py simulated_data_CEBPA_JASPAR normal_40
-python3 /CNN/show_convolution.py $PROJ
-python3 /CNN/show_convolution.py $SHUF <k>
+python3 CNN/show_convolution.py simulated_data_CEBPA_JASPAR normal_40
+python3 CNN/show_convolution.py $PROJ
+python3 CNN/show_convolution.py $SHUF <k>
 
 # Step 5: show tensors
-python3 /CNN/tensor_visualization.py simulated_data_CEBPA_JASPAR normal_40
+python3 CNN/tensor_visualization.py simulated_data_CEBPA_JASPAR normal_40
 python3 CNN/tensor_visualization.py  $PROJ
-python3 /CNN/tensor_visualization.py $SHUF <k>
+python3 CNN/tensor_visualization.py $SHUF <k>
 
 # Step 6: compare to known motifs 
-python3 /motifs/read_filters_and_run_Homer_compare_motifs.py simulated_data_CEBPA_JASPAR normal_40
-python3 /motifs/read_filters_and_run_Homer_compare_motifs.py $PROJ 
-python3 /motifs/read_filters_and_run_Homer_compare_motifs.py $SHUF <k>
+python3 motifs/read_filters_and_run_Homer_compare_motifs.py simulated_data_CEBPA_JASPAR normal_40
+python3 motifs/read_filters_and_run_Homer_compare_motifs.py $PROJ 
+python3 motifs/read_filters_and_run_Homer_compare_motifs.py $SHUF <k>
 
 # Step 7: find de-novo motifs using homer
-python3 /CNN/create_data_for_Homer.py simulated_data_CEBPA_JASPAR normal_40
-python3 /CNN/create_data_for_Homer.py $PROJ 
-python3 /CNN/create_data_for_Homer.py $SHUF <k>
+python3 CNN/create_data_for_Homer.py simulated_data_CEBPA_JASPAR normal_40
+python3 CNN/create_data_for_Homer.py $PROJ 
+python3 CNN/create_data_for_Homer.py $SHUF <k>
