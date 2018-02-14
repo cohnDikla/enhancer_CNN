@@ -72,8 +72,8 @@ for the k-shuffle projects (TF_vs_k_shuffle, H3K27ac_vs_k_shuffle or negative_da
 python2.7 /<project_name>/data_loader_<project_name>.py
 
 for example:
-python2.7 /TF_vs_k_shuffle/data_loader_TF_vs_k_shuffle.py
-python2.7 /negative_data_vs_k_shuffle/data_loader_negative_data_vs_k_shuffle_each_species.py
+python2.7 /TF_vs_k_shuffle/data_loader_TF_vs_k_shuffle.py <br />
+python2.7 /negative_data_vs_k_shuffle/data_loader_negative_data_vs_k_shuffle_each_species.py  <br />
 This module creates data for each species separately, and for all values of k (k=1,...,9).
 
 2. CNN train:
