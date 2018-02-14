@@ -1,16 +1,22 @@
 Enhancer Identification from DNA sequence using Transfer and Adversarial Deep Learning
 ======================================================================================
 
+General:
+---------
 
-Dikla Cohn, Or Zuk and Tommy Kaplan
+This package implements deep-learning based training algorithms for enhancer classification, described in [1]
 
-use:
+Authors: Dikla Cohn, Or Zuk and Tommy Kaplan
+
+Prerequisites:
+--------------
+Use:
 Python 3.5.2+ and Python2.7
 tensorflow 1.1.0
 used on Linux machine, gpu (nvidia tesla M60)
 
 
-for k-shuffling we used the uShuffle tool:
+For k-shuffling we used the uShuffle tool:
 uShuffle: A useful tool for shuffling biological sequences while preserving the k-let counts.
 Jiang, M. et al., 2008
 BMC Bioinformatics 2008 9:192
@@ -21,15 +27,15 @@ http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
 Build a shared library ushuffle.so and save it in the main directory (enhancer_CNN/). 
 
 For finding denovo motifs and comparing to known motifs we used the Homer tool:
-Heinz, S. et al., 2010
 Simple Combinations of Lineage-Determining Transcription Factors Prime cis-Regulatory Elements Required for Macrophage and B Cell Identities.
+Heinz, S. et al., 2010
 MolCell,38(4), 576-589.
 doi:10.1016/j.molcel.2010.05.004
 
 
 
-Prerequisites:
---------------
+Data Preparation:
+-----------------
 For all projects (except the simulated_data project):
 save positive (and negative if needed) samples as text files to: /<project_name>/data/samples/<species_name>/
 The files should contain one line for each sample string (of A,C,G,T only, no N's)
@@ -190,8 +196,8 @@ Acknowledgment
 This package was developed by: Dikla Cohn, as part of work on the paper
 
 [1] 
-["Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"
-D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)](https://www.biorxiv.org/content/early/2018/02/13/264200)
+["Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"](https://www.biorxiv.org/content/early/2018/02/13/264200)
+D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)
 
 Please cite this paper if using the package
 
