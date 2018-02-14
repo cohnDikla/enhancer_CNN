@@ -30,13 +30,13 @@ For finding denovo motifs and comparing to known motifs we used the Homer tool [
 Data Preparation:
 -----------------
 For all projects (except the simulated_data project):
-save positive (and negative if needed) samples as text files to: /<project_name>/data/samples/<species_name>/
-The files should contain one line for each sample string (of A,C,G,T only, no N's)
+save positive (and negative if needed) samples as text files to: /<project_name>/data/samples/<species_name>/  <br /> 
+The files should contain one line for each sample string (of A,C,G,T only, no N's)  <br /> 
 Name the files: 
 negative_samples
 positive_samples
 (negative samples not required for k_shuffle projects).
-each file should contain:
+Each file should contain:  <br /> 
 for TF data - 12K lines (samples)
 for H3K27ac data - 14K lines (samples)
 - as in the given example files, located in: TF_vs_negative_data/data/samples/example/
@@ -44,13 +44,13 @@ you can use the: create_species_dirs.py script to create species directories (al
 
  
 Specifically for the simulated_data project, no need to create positive and negative samples in advance.
-run:
+Run:
 python2.7 /simulated_data/run_data_loader.py simulated_data_<motif_name> normal_<sigma>
-for example:
+For example:
 python2.7 /simulated_data/run_data_loader.py simulated_data_CEBPA_JASPAR normal_40
 This module creates the simulated data of one TF: CEBBA or HNF4A.
-Each sample contains a short sequence sampled from the PWM of the TF.
-The location of the planted motif is sampled with normal distribution around the center of each sample, according to the given <sigma> value. (We used sigma=40).
+Each sample contains a short sequence sampled from the PWM of the TF.  <br /> 
+The location of the planted motif is sampled with normal distribution around the center of each sample, according to the given <sigma> value. (We used sigma=40).  <br /> 
 This module also writes all created data samples and labels both as text files and as numpy binary files to: 
 /simulated_data/data/normal_dist_centers/<motif_name>/samples/
 /simulated_data/data/normal_dist_centers/<motif_name>/npy_files/
