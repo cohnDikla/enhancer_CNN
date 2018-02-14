@@ -3,7 +3,6 @@ Enhancer Identification from DNA sequence using Transfer and Adversarial Deep Le
 
 
 Dikla Cohn, Or Zuk and Tommy Kaplan
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 use:
 Python 3.5.2+ and Python2.7
@@ -60,7 +59,7 @@ The generated files contain 10K samples in positive samples and 10K samples in n
 
 
 Run:
-~~~~
+----
 
 1. data loader: (from string sequences (ACGT...) to npy files) - run with a specific project dir: 
 
