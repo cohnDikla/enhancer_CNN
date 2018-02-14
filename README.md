@@ -184,11 +184,12 @@ python3 /CNN/display_k_graph_different_models.py TF_vs_k_shuffle negative_data_v
 
 
 Acknowledgment
+--------------
 This package was developed by: Dikla Cohn, as part of work on the paper
 
 [1] 
-"Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"
-D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018) https://www.biorxiv.org/content/early/2018/02/13/264200
+["Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"
+D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)] https://www.biorxiv.org/content/early/2018/02/13/264200
 
 Please cite this paper if using the package
 
