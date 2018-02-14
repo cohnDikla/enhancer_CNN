@@ -1,5 +1,5 @@
 Enhancer Identification from DNA sequence using Transfer and Adversarial Deep Learning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+======================================================================================
 
 
 Dikla Cohn, Or Zuk and Tommy Kaplan
@@ -21,7 +21,7 @@ How to Use uShuffle in Python:
 http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
 Build a shared library ushuffle.so and save it in the main directory (enhancer_CNN/). 
 
-for finding denovo motifs and comparing to known motifs we used the Homer tool:
+For finding denovo motifs and comparing to known motifs we used the Homer tool:
 Heinz, S. et al., 2010
 Simple Combinations of Lineage-Determining Transcription Factors Prime cis-Regulatory Elements Required for Macrophage and B Cell Identities.
 MolCell,38(4), 576-589.
@@ -29,8 +29,8 @@ doi:10.1016/j.molcel.2010.05.004
 
 
 
-    Prerequisites:
-    ~~~~~~~~~~~~~~
+Prerequisites:
+--------------
 For all projects (except the simulated_data project):
 save positive (and negative if needed) samples as text files to: /<project_name>/data/samples/<species_name>/
 The files should contain one line for each sample string (of A,C,G,T only, no N's)
@@ -59,8 +59,8 @@ This module also writes all created data samples and labels both as text files a
 The generated files contain 10K samples in positive samples and 10K samples in negative samples.
 
 
-    Run:
-    ~~~~
+Run:
+~~~~
 
 1. data loader: (from string sequences (ACGT...) to npy files) - run with a specific project dir: 
 
@@ -161,8 +161,11 @@ python3 /PSSM_straw_man_model/straw_man_model.py simulated_data_denovo normal_40
 
 
 
-    Figures:
-    ~~~~~~~~
+Figures:
+--------
+
+The code shown below was used to generate the figures in the paper [1] 
+
 Figure2:
 python3 /roc_comparison.py simulated_data_CEBPA_JASPAR normal_<sigma>
 for example,
@@ -189,7 +192,7 @@ This package was developed by: Dikla Cohn, as part of work on the paper
 
 [1] 
 ["Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"
-D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)] https://www.biorxiv.org/content/early/2018/02/13/264200
+D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)](https://www.biorxiv.org/content/early/2018/02/13/264200)
 
 Please cite this paper if using the package
 
