@@ -16,21 +16,14 @@ tensorflow 1.1.0
 used on Linux machine, gpu (nvidia tesla M60)
 
 
-For k-shuffling we used the uShuffle tool:
-uShuffle: A useful tool for shuffling biological sequences while preserving the k-let counts.
-Jiang, M. et al., 2008
-BMC Bioinformatics 2008 9:192
+For k-shuffling we used the uShuffle tool [2]:
 link for downloading the uShuffle library: 
 http://digital.cs.usu.edu/~mjiang/ushuffle/
 How to Use uShuffle in Python:
 http://digital.cs.usu.edu/~mjiang/ushuffle/python.html
 Build a shared library ushuffle.so and save it in the main directory (enhancer_CNN/). 
 
-For finding denovo motifs and comparing to known motifs we used the Homer tool:
-Simple Combinations of Lineage-Determining Transcription Factors Prime cis-Regulatory Elements Required for Macrophage and B Cell Identities.
-Heinz, S. et al., 2010
-MolCell,38(4), 576-589.
-doi:10.1016/j.molcel.2010.05.004
+For finding denovo motifs and comparing to known motifs we used the Homer tool [3].
 
 
 
@@ -193,13 +186,26 @@ python3 /CNN/display_k_graph_different_models.py TF_vs_k_shuffle negative_data_v
 
 Acknowledgment
 --------------
-This package was developed by: Dikla Cohn, as part of work on the paper
+This package was developed by Dikla Cohn, as part of work on the paper [1]. Please cite this paper if using the package
 
+
+References
+----------
 [1] 
 ["Enhancer Identification using Transfer and Adversarial Deep Learning of DNA Sequences"](https://www.biorxiv.org/content/early/2018/02/13/264200)
 D. Cohn, O. Zuk and T. Kaplan (Biorxiv, 2018)
 
-Please cite this paper if using the package
+[2] uShuffle: A useful tool for shuffling biological sequences while preserving the k-let counts.
+Jiang, M. et al., 2008
+BMC Bioinformatics 2008 9:192
+
+[3] Simple Combinations of Lineage-Determining Transcription Factors Prime cis-Regulatory Elements Required for Macrophage and B Cell Identities.
+Heinz, S. et al., 2010
+MolCell,38(4), 576-589.
+doi:10.1016/j.molcel.2010.05.004
+
+
+
 
 
 
