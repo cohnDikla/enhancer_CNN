@@ -45,9 +45,9 @@ you can use the: create_species_dirs.py script to create species directories (al
  
 Specifically for the simulated_data project, no need to create positive and negative samples in advance.
 Run:  <br /> 
-python2.7 /simulated_data/run_data_loader.py simulated_data_<motif_name> normal_<sigma>  <br /> 
+python2.7 simulated_data/run_data_loader.py simulated_data_<motif_name> normal_<sigma>  <br /> 
 For example:  <br /> 
-python2.7 /simulated_data/run_data_loader.py simulated_data_CEBPA_JASPAR normal_40  <br /> 
+python2.7 simulated_data/run_data_loader.py simulated_data_CEBPA_JASPAR normal_40  <br /> 
 This module creates the simulated data of one TF: CEBBA or HNF4A.
 Each sample contains a short sequence sampled from the PWM of the TF.  <br /> 
 The location of the planted motif is sampled with normal distribution around the center of each sample, according to the given <sigma> value. (We used sigma=40).  <br /> 
