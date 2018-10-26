@@ -57,7 +57,7 @@ This module also writes all created data samples and labels both as text files a
 The generated files contain 10K samples in positive samples and 10K samples in negative samples. <br />
 
 Additional data used in the paper [1] is available at: 
-http://www.cs.huji.ac.il/~tommy//enhancer_CNN/Enhancers_vs_negative.tgz. 
+http://www.cs.huji.ac.il/~tommy//enhancer_CNN/Enhancers_vs_negative.tgz.  <br />
 There are 3 types of files in the gzipped tar file.
 For each of the 17 species we used in the paper, you can find the positive_samples and negative_samples sequences (500bp each) in appropriate files, 14K in each file.
 The files in peaks_fasta_files are FASTA formatted and contain the full list of 500bp positive sequences, each with its genomic coordinates.
