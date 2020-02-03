@@ -70,7 +70,7 @@ Run:
 1. data loader: (from string sequences (ACGT...) to npy files) - run with a specific project dir: 
 
 for simulated data project:
-python2.7 simulated_data/run_data_loader.py simulated_data_CEBPA_JASPAR normal_<sigma>
+python2.7 simulated_data/run_data_loader.py simulated_data_CEBPA_JASPAR normal_(sigma)
 
 for other projects:
 python2.7 /<project_name>/run_data_loader.py [<k>]
